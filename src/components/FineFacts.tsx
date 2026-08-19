@@ -1,7 +1,6 @@
 import { Reveal } from "./ui/Reveal";
 import { SplitHeading } from "./ui/SplitHeading";
-import { fineFacts, fineFactTiers, PRICING_AS_OF, PRICING_SOURCE } from "@/lib/content";
-import { siteConfig } from "@/lib/site.config";
+import { fineFacts, fineFactTiers } from "@/lib/content";
 
 /**
  * Honest fine-print grid (§2.5) — FCC-Broadband-Facts-style facts per internet
@@ -55,28 +54,6 @@ export function FineFacts() {
           </div>
         </Reveal>
 
-        <Reveal delay={0.1}>
-          <div className="ff-foot">
-            {/* Fine-print group: label link + sourcing line, muted/secondary. */}
-            <p className="ff-source">
-              <a
-                className="ff-label"
-                href="https://www.wowway.com/policies/broadband-labels"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                See WOW!&apos;s official Broadband Facts label →
-              </a>
-              <span>
-                Facts sourced from {PRICING_SOURCE}, {PRICING_AS_OF}. Confirm at your address by phone.
-              </span>
-            </p>
-            {/* Exactly one small, secondary call link under the grid (§2.5). */}
-            <a href={siteConfig.phoneHref} data-call-cta className="ff-call">
-              Call {siteConfig.phoneDisplay}
-            </a>
-          </div>
-        </Reveal>
       </div>
     </section>
   );
