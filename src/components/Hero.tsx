@@ -4,105 +4,89 @@ import { plans } from "@/lib/content";
 import { Lockup } from "./ui/Lockup";
 
 /**
- * Hero (§2.2) — offer-led, static, phone-first.
+ * Hero (§2.2) — one unified dark card spanning the hero, two columns.
  *
- * Rebuilt to the compliance spec: no cursor parallax, no GSAP scrub, no
- * per-word headline builds, no drifting blobs (all §4-banned). A compressed
- * static background image + scrim only. The primary CTA is a tap-to-call button
- * with the number visible as text (data-call-cta), backed by staffed-hours
- * microcopy and new-orders-only support routing. Trust chips are verifiable,
- * carrier-backed facts only — no fabricated counts, no invented fee claims.
+ * LEFT: disclosure eyebrow, H1, one-sentence description, the reused §3 price
+ * lockup (ui/Lockup), the primary tap-to-call CTA (number visible), then the
+ * staffed-hours line, new-orders-only support routing, and the trust chips.
+ * RIGHT: a real residential lifestyle photo.
  *
- * Fully server-rendered: every word is in the static HTML, nothing is
- * animation-gated, so it's LCP-friendly and can never get stuck hidden.
+ * Headline/value-prop and the lead price come from wowway.com (re-scraped
+ * 2026-08-19): WOW! leads with "Internet 300 Mbps for just $25" / "More speed.
+ * Less spend." — restated here in the template's own voice per §5.2. The number
+ * and its conditions trace to the sourced heroPlan object in content.ts.
+ *
+ * No live internet-plan promo exists on wowway.com today (the only dollar-amount
+ * promo is the YouTube-TV NFL Sunday Ticket offer, a TV add-on), so the promo
+ * badge is omitted rather than invented.
+ *
+ * Static — no continuous glow/spin/pulse (the card uses no looping animation).
  */
 const HERO_CHIPS = ["No annual contract", "Unlimited data", "Up to 5 Gig fiber", "Price Lock available"];
 
-// Lead price anchor for the hero card — the featured (most-popular) plan, read
-// straight from content.ts so the number always traces to the sourced object.
-const heroPlan = plans.find((p) => p.featured) ?? plans[0];
+// Lead internet offer, straight from content.ts (Internet 300 Mbps at $25/mo).
+const heroPlan = plans[0];
 
 export function Hero() {
   return (
-    <section className="hero hero-light hero-static" id="top">
-      <div className="hero-bg" aria-hidden="true">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className="hero-photo-img hero-ground-img" src="/img/hero-ground.jpeg" alt="" fetchPriority="high" decoding="async" />
-      </div>
-      <div className="hero-veil" aria-hidden="true" />
-
-      <div className="container hero-inner">
-        <div className="hero-copy">
-          <span className="hero-eyebrow">
-            <span className="live-dot" />
-            <b>Independent Authorized {siteConfig.agreementNoun}</b>&nbsp;· Order WOW! by phone
-          </span>
-
-          <h1 className="hero-title">
-            Fast, reliable internet for your{" "}
-            <span className="hero-accent-wrap">
-              <span className="hero-accent">whole home</span>
-              <svg className="hero-ul" viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true">
-                <defs>
-                  <linearGradient id="heroUl" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0" stopColor="#0072A8" />
-                    <stop offset="0.5" stopColor="#FFC40C" />
-                    <stop offset="1" stopColor="#F26124" />
-                  </linearGradient>
-                </defs>
-                <path d="M6 12 C 70 4, 150 5, 214 10 S 284 16, 294 8" />
-              </svg>
+    <section className="hero-cardhero" id="top">
+      <div className="container">
+        <div className="herocard">
+          <div className="herocard-left">
+            <span className="hc-eyebrow">
+              <span className="hc-dot" aria-hidden="true" />
+              <b>Independent Authorized {siteConfig.agreementNoun}</b>
+              <span className="hc-eyebrow-sep">·</span> Order WOW! by phone
             </span>
-          </h1>
 
-          <p className="hero-sub">
-            Compare WOW! fiber and cable plans and order in one call. No contracts, no data caps, and
-            unlimited data on every plan. A trained sales agent checks what&apos;s available at your
-            address and quotes today&apos;s WOW! pricing.
-          </p>
+            <h1 className="hc-title">
+              Fast internet, <span className="hc-grad">less to spend</span>
+            </h1>
 
-          <div className="hero-cta">
-            <a className="btn btn-primary btn-shine btn-lg hero-callbtn" href={siteConfig.phoneHref} data-call-cta>
-              <Icon name="phone" size={20} /> Call now: {siteConfig.phoneDisplay}
+            <p className="hc-sub">
+              Unlimited data, no annual contract, and self-install with no appointment. Switch or
+              cancel whenever you like, and lock your rate for life if you want to.
+            </p>
+
+            <p className="hc-plan">
+              WOW! Internet · {heroPlan.download} {heroPlan.unit}
+            </p>
+            <Lockup plan={heroPlan} className="lockup--dark" />
+
+            <a className="hc-cta" href={siteConfig.phoneHref} data-call-cta>
+              <Icon name="phone" size={18} /> Call {siteConfig.phoneDisplay}
             </a>
-            <a className="btn btn-ghost btn-lg" href="#plans">
-              See plans <Icon name="arrow" size={18} className="arrow" />
-            </a>
+
+            <p className="hc-hours">
+              <span className="hc-dot" aria-hidden="true" /> Agents available {siteConfig.hoursDisplay}
+            </p>
+            <p className="hc-support">
+              New orders only — for account, billing or outage support, contact WOW! directly at{" "}
+              <a href={siteConfig.carrierSupportHref}>{siteConfig.carrierSupportDisplay}</a>.
+            </p>
+
+            <ul className="hc-chips" aria-label="Plan highlights">
+              {HERO_CHIPS.map((c) => (
+                <li key={c}>
+                  <Icon name="check-circle" size={16} /> {c}
+                </li>
+              ))}
+            </ul>
           </div>
 
-          <p className="hero-hours">
-            <span className="live-dot" /> Agents available {siteConfig.hoursDisplay}
-          </p>
-          <p className="hero-support">
-            New orders only — for account, billing or outage support, contact WOW! directly at{" "}
-            <a href={siteConfig.carrierSupportHref}>{siteConfig.carrierSupportDisplay}</a>.
-          </p>
-
-          <ul className="hero-chips" aria-label="Plan highlights">
-            {HERO_CHIPS.map((c) => (
-              <li key={c}>
-                <Icon name="check-circle" size={16} /> {c}
-              </li>
-            ))}
-          </ul>
+          <div className="herocard-right">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/img/why-lifestyle.jpeg"
+              alt="A family at home using WOW! internet across their devices"
+              width={2752}
+              height={1536}
+              fetchPriority="high"
+              decoding="async"
+            />
+          </div>
         </div>
-
-        {/* Dark price-lockup card — the §3 lockup reused (see ui/Lockup), driven
-            by the sourced heroPlan; static, no continuous animation. */}
-        <aside className="hero-pricecard" aria-label={`${heroPlan.tier} pricing`}>
-          <p className="hpc-plan">
-            WOW! Internet · {heroPlan.download} {heroPlan.unit}
-          </p>
-          <Lockup plan={heroPlan} className="lockup--dark" />
-          <a className="btn hpc-cta" href={siteConfig.phoneHref} data-call-cta>
-            <Icon name="phone" size={18} /> Call {siteConfig.phoneDisplay}
-          </a>
-        </aside>
       </div>
-
-      <svg className="wave-sep" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
-        <path fill="#ffffff" d="M0,64 C240,20 480,20 720,44 C960,68 1200,92 1440,56 L1440,90 L0,90 Z" />
-      </svg>
     </section>
   );
 }
