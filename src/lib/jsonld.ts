@@ -52,20 +52,24 @@ export const offersLd = {
   name: "WOW! Internet Plans",
   brand: { "@type": "Brand", name: siteConfig.brandName },
   description:
-    "High-speed WOW! internet plans with no contracts, unlimited data and whole-home Wi-Fi, ordered through an authorized dealer.",
-  offers: plans.map((p) => ({
-    "@type": "Offer",
-    name: `${p.tier} — ${p.download} ${p.unit}`,
-    price: p.price,
-    priceCurrency: "USD",
-    availability: "https://schema.org/InStock",
-    priceSpecification: {
-      "@type": "UnitPriceSpecification",
+    "High-speed WOW! internet plans with no contracts and Whole-Home WiFi, ordered through an authorized dealer.",
+  // Null/gated-price plans omit the Offer entirely (§8.3 — an Offer without a
+  // price is schema-invalid).
+  offers: plans
+    .filter((p) => p.price)
+    .map((p) => ({
+      "@type": "Offer",
+      name: p.tier,
       price: p.price,
       priceCurrency: "USD",
-      unitText: "MONTH",
-    },
-  })),
+      availability: "https://schema.org/InStock",
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: p.price,
+        priceCurrency: "USD",
+        unitText: "MONTH",
+      },
+    })),
 };
 
 export function breadcrumbLd(items: { name: string; path: string }[]) {

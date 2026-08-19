@@ -442,7 +442,7 @@ export const legalDocs: Record<string, LegalDoc> = {
         id: "who",
         heading: "Who operates this site",
         body: [
-          `This website is operated by ${siteConfig.entityLegalName}, an independent authorized ${siteConfig.agreementNoun.toLowerCase()} of WOW! (WideOpenWest) services. ${siteConfig.entityLegalName} is a separate company from WOW!, is not WOW!, and does not own the WOW! trademarks. Our role is to help you order WOW! services by phone.`,
+          `This website is operated by ${siteConfig.entityLegalName}, an independent authorized ${siteConfig.agreementNoun.toLowerCase()} of WOW! (WideOpenWest) services. ${siteConfig.entityLegalName} is a separate company from WOW!, is not WOW!, and does not own the WOW! trademarks. Our role is to help you compare WOW! plans and connect with a sales agent to place your order.`,
         ],
       },
       {

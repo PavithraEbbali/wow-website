@@ -6,7 +6,7 @@ import { Icon, type IconName } from "@/lib/icons";
  */
 const ITEMS: { icon: IconName; label: string }[] = [
   { icon: "contract", label: "No annual contracts" },
-  { icon: "infinity", label: "Unlimited data" },
+  { icon: "bolt", label: "Self-install kit included" },
   { icon: "mesh", label: "Whole-home Wi-Fi (eero)" },
   { icon: "shield", label: "30-day money-back" },
   { icon: "lock", label: "Price Lock for Life ($5/mo)" },

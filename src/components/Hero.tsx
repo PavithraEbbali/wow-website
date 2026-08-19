@@ -22,7 +22,7 @@ import { Lockup } from "./ui/Lockup";
  *
  * Static — no continuous glow/spin/pulse (the card uses no looping animation).
  */
-const HERO_CHIPS = ["No annual contract", "Unlimited data", "Up to 5 Gig fiber", "Price Lock available"];
+const HERO_CHIPS = ["No annual contract", "Self-install kit included", "Up to 5 Gig fiber", "Price Lock available"];
 
 // Lead internet offer, straight from content.ts (Internet 300 Mbps at $25/mo).
 const heroPlan = plans[0];
@@ -35,17 +35,16 @@ export function Hero() {
           <div className="herocard-left">
             <span className="hc-eyebrow">
               <span className="hc-dot" aria-hidden="true" />
-              <b>Independent Authorized {siteConfig.agreementNoun}</b>
-              <span className="hc-eyebrow-sep">·</span> Order WOW! by phone
+              <b>Independent Authorized {siteConfig.agreementNoun}</b> of WOW!
             </span>
 
             <h1 className="hc-title">
-              Fast internet, <span className="hc-grad">less to spend</span>
+              Fast internet that <span className="hc-grad">costs less</span>
             </h1>
 
             <p className="hc-sub">
-              Unlimited data, no annual contract, and self-install with no appointment. Switch or
-              cancel whenever you like, and lock your rate for life if you want to.
+              No annual contract, switch or cancel anytime, and a self-install kit is included. Add
+              Whole-Home WiFi if you want a strong signal in every room.
             </p>
 
             <p className="hc-plan">
@@ -60,10 +59,15 @@ export function Hero() {
             <p className="hc-hours">
               <span className="hc-dot" aria-hidden="true" /> Agents available {siteConfig.hoursDisplay}
             </p>
-            <p className="hc-support">
-              New orders only — for account, billing or outage support, contact WOW! directly at{" "}
-              <a href={siteConfig.carrierSupportHref}>{siteConfig.carrierSupportDisplay}</a>.
-            </p>
+            {/*
+              Support-routing microcopy removed per operator instruction (2026-08-19).
+              OPERATOR TODO: §1 and §10 require routing existing-customer support calls
+              AWAY from this sales line to keep billing/outage calls out of conversion
+              data. With this line gone, those callers reach the sales line with no
+              redirect. Restore a confirmed support-routing line here once the operator
+              decides where that traffic should go (the FAQ archetype-7 answer is also
+              pending that decision — see content.ts faqs).
+            */}
 
             <ul className="hc-chips" aria-label="Plan highlights">
               {HERO_CHIPS.map((c) => (

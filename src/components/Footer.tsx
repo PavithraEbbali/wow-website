@@ -27,8 +27,8 @@ export function Footer() {
             </p>
             <p>
               {siteConfig.entityLegalName} helps households across the WOW! footprint compare plans and
-              order service by phone — trained sales agents quote today&apos;s WOW! offers and place
-              your order. We are not WOW!.
+              connect with a trained sales agent, who quotes today&apos;s WOW! offers and places your
+              order. We are not WOW!.
             </p>
             <div className="footer-contact">
               <a href={siteConfig.phoneHref} data-call-cta>

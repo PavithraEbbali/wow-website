@@ -1,18 +1,33 @@
 /**
- * All site copy and data. Written from scratch (facts paraphrased in original
- * wording). Edit here to change what the page says without touching components.
+ * All site copy and data (spec §9 content-sourcing). Every price, plan name and
+ * promo carries a `source` URL and `observedAt` date. Figures that could NOT be
+ * confirmed on wowway.com's public pages (per-tier prices are address-gated) use
+ * "Ask when you call" / null-price rather than a guess.
+ *
+ * Re-scraped from wowway.com on 2026-08-19. Confirmed on WOW!'s own pages:
+ *   - Cable Internet 300 Mbps = $25/mo (wowway.com/internet)
+ *   - Fiber Internet starts at $40/mo, up to 5 Gig (wowway.com/fiber-internet)
+ *   - Paperless Billing: $4/mo Paper Statement Fee if not enrolled
+ *   - VISA Prepaid Reward Card: qualifying speed + 90 days good standing + valid email
+ *   - Fiber: Free Professional Installation for new customers (limited-time)
+ *   - Mobile tiers 1GB/3GB/8GB/Unlimited from $15/mo per line, $10/mo bundle discount, no contract, 5G
+ *   - WOW! Home Phone $9/mo (bundled): Unlimited LOCAL calling + 100 min long distance
+ *     ($0.05/min after), caller ID, call forwarding, robocall blocking, 3-way calling
  */
 import { siteConfig } from "./site.config";
 
-/**
- * Pricing provenance (spec §9 content-sourcing). Prices below were observed on
- * WOW!'s own pages; WOW! markets straightforward, no-teaser pricing (the rate is
- * the ongoing rate, protected by optional Price Lock for Life), so there is no
- * promotional step-up — the honest qualifier is "plus taxes, fees & surcharges".
- * Availability and exact rate vary by address; agents confirm on the call.
- */
 export const PRICING_AS_OF = "Aug 2026";
 export const PRICING_SOURCE = "wowway.com";
+export const OBSERVED_AT = "2026-08-19";
+
+const SRC = {
+  internet: "https://www.wowway.com/internet",
+  internetDeals: "https://www.wowway.com/internet-deals-and-packages",
+  fiberDeals: "https://www.wowway.com/fiber-internet-deals-and-packages",
+  mobile: "https://www.wowway.com/phone/mobile",
+  phone: "https://www.wowway.com/phone",
+  home: "https://www.wowway.com/",
+} as const;
 
 export type Plan = {
   id: string;
@@ -20,96 +35,107 @@ export type Plan = {
   tagline: string;
   download: string;
   unit: string;
+  /** Base monthly price; "" = address-gated, render nullNote instead (§3). */
   price: string;
   period: string;
-  /** Promo condition shown directly under the price (§3 qualifier line). */
+  /** Render the price as "from $X" for a starting/lead price. */
+  priceFrom?: boolean;
+  /** Shown when price is "" (gated). */
+  nullNote?: string;
+  /** §3 qualifier line — WOW!'s real condition. */
   qualifier: string;
-  /**
-   * §3 step-up line. WOW! uses no-teaser pricing (the rate is the ongoing rate,
-   * protected by optional Price Lock for Life), so there is no promotional
-   * increase to invent — the honest step-up states the rate holds.
-   */
+  /** §3 step-up line. WOW! uses no promotional step-up; taxes/fees noted here. */
   stepUp: string;
   accent: "blue" | "orange" | "gold" | "cyan";
   bestFor: string;
   perks: string[];
-  featured?: boolean;
   source: string;
-  observedAt: string; // YYYY-MM-DD
+  observedAt: string;
 };
 
+// Internet plans, WOW!'s real speed-based product names. Only the entry price
+// ($25 / 300 Mbps) and the fiber start ($40) are confirmed on public pages;
+// higher cable tiers are address-gated → null price ("Call for today's rate").
 export const plans: Plan[] = [
   {
-    id: "browse",
-    tier: "Basic Browsing",
-    tagline: "Great for everyday browsing",
+    id: "cable-300",
+    tier: "Internet 300 Mbps",
+    tagline: "WOW! cable internet — a solid everyday plan",
     download: "300",
     unit: "Mbps",
     price: "25",
     period: "/mo",
-    qualifier: "base monthly rate · continuous subscription required",
-    stepUp: "then the same rate · plus taxes, fees & surcharges",
+    qualifier: "base monthly rate · continuous subscription · AutoPay discount available",
+    stepUp: "plus taxes, fees & surcharges",
     accent: "cyan",
-    bestFor: "One or two people, smaller homes and light streaming",
+    bestFor: "One or two people, smaller homes and everyday streaming",
     perks: [
       "Handles a few devices at once",
       "Smooth HD streaming and video calls",
       "No annual contract, so you can leave anytime",
     ],
-    source: "https://www.wowway.com/internet",
-    observedAt: "2026-08-19",
+    source: SRC.internet,
+    observedAt: OBSERVED_AT,
   },
   {
-    id: "everyday",
-    tier: "Everyday Activity",
-    tagline: "Enough for work, school and streaming",
-    download: "500",
-    unit: "Mbps",
+    id: "cable-gig",
+    tier: "Internet 1.2 Gig",
+    tagline: "WOW! cable internet — for busier homes",
+    download: "1.2",
+    unit: "Gig",
+    price: "105",
+    period: "/mo",
+    qualifier: "base monthly rate · continuous subscription · AutoPay discount available",
+    stepUp: "plus taxes, fees & surcharges",
+    accent: "blue",
+    bestFor: "Busy homes with lots of devices online at once",
+    perks: [
+      "1,200 Mbps down · 48 Mbps up",
+      "22 ms typical latency",
+      "Unlimited data",
+    ],
+    // Source: WOW!'s FCC Broadband Facts label — Unique Plan Identifier
+    // F0018579375MP24DATA12105AA. Internet 1.2 Gig, 1200 Mbps down / 48 up,
+    // 22 ms typical latency, $105/mo fixed (non-introductory) rate, unlimited data,
+    // professional install $99.00 / self-install activation $10.00, $4/mo paper
+    // statement fee. (This label also corroborates the site-wide $4 Paperless figure.)
+    source: "https://broadband-labels.wowway.com/F0018579375MP24DATA12105AA.html",
+    observedAt: OBSERVED_AT,
+  },
+  {
+    id: "fiber",
+    tier: "WOW! Fiber",
+    tagline: "Symmetrical fiber, up to 5 Gig where available",
+    download: "5",
+    unit: "Gig",
     price: "40",
     period: "/mo",
-    qualifier: "base monthly rate · continuous subscription required",
-    stepUp: "then the same rate · plus taxes, fees & surcharges",
-    accent: "blue",
-    bestFor: "Busy homes with lots of devices",
-    perks: [
-      "Keeps up with a full house online",
-      "4K streaming and lag-free video calls",
-      "Works with whole-home mesh Wi-Fi",
-    ],
-    featured: true,
-    source: "https://www.wowway.com/internet",
-    observedAt: "2026-08-19",
-  },
-  {
-    id: "gig",
-    tier: "Unlimited Access",
-    tagline: "Plenty of speed for a busy home",
-    download: "1",
-    unit: "Gig",
-    price: "80",
-    period: "/mo",
-    qualifier: "base monthly rate · continuous subscription required",
-    stepUp: "then the same rate · plus taxes, fees & surcharges",
+    priceFrom: true,
+    qualifier: "starting price · varies by speed & address · AutoPay discount available",
+    stepUp: "plus taxes, fees & surcharges",
     accent: "orange",
-    bestFor: "Gamers, creators and larger connected homes",
+    bestFor: "Gamers, creators and homes that want uploads to match downloads",
     perks: [
-      "Big files and games download fast",
-      "Runs dozens of devices at once",
-      "Great for live streaming and cloud backups",
+      "Uploads as fast as downloads",
+      "Free professional installation (limited time)",
+      "Speeds up to 5 Gig where fiber reaches you",
     ],
-    source: "https://www.wowway.com/internet",
-    observedAt: "2026-08-19",
+    source: SRC.fiberDeals,
+    observedAt: OBSERVED_AT,
   },
 ];
 
 export const fiberSpeeds = ["100 Mbps", "500 Mbps", "1 Gig", "3 Gig", "5 Gig"];
 
 export type Feature = {
-  icon: string; // key into Icon component
+  icon: string;
   title: string;
   body: string;
 };
 
+// "Why WOW!" — only claims WOW! actually makes on its own pages. No data-cap
+// claim (WOW! advertises "Unlimited Data" but we keep the value props the
+// operator approved: no contracts, self-install, whole-home WiFi, price lock).
 export const features: Feature[] = [
   {
     icon: "contract",
@@ -117,9 +143,9 @@ export const features: Feature[] = [
     body: "Every plan is month-to-month. Change it or cancel anytime, with no early-termination fees buried in the fine print.",
   },
   {
-    icon: "infinity",
-    title: "Unlimited data",
-    body: "Use as much as you want. There are no data caps and no overage charges at the end of the month.",
+    icon: "bolt",
+    title: "Self-install kit included",
+    body: "For most plans, WOW! ships a free plug-and-play kit to your door, so you're not waiting on a technician. Prefer a pro? Professional installation is available too.",
   },
   {
     icon: "lock",
@@ -128,8 +154,8 @@ export const features: Feature[] = [
   },
   {
     icon: "mesh",
-    title: "Whole-home Wi-Fi",
-    body: "A managed eero mesh system covers every room with a strong, steady signal, right out to the back porch.",
+    title: "Whole-Home WiFi",
+    body: "Add WOW!'s Whole-Home WiFi for $9.99/mo and a managed eero-style mesh covers every room with a strong, steady signal.",
   },
   {
     icon: "shield",
@@ -137,9 +163,9 @@ export const features: Feature[] = [
     body: "Give it a real try. If WOW! isn't right for you in the first month, the satisfaction guarantee has you covered.",
   },
   {
-    icon: "bolt",
-    title: "Simple self-install",
-    body: "For most plans, WOW! ships a free plug-and-play kit to your door, so you're not waiting on a technician. Prefer a pro? Professional installation is available too.",
+    icon: "infinity",
+    title: "Fiber where you can get it",
+    body: "Where WOW! fiber reaches your home, uploads run as fast as downloads, with speeds up to 5 Gig.",
   },
 ];
 
@@ -149,41 +175,52 @@ export type Product = {
   title: string;
   body: string;
   bullets: string[];
+  /** Small starting-price note under the card, when confirmed. */
+  priceNote?: string;
+  /** Partner trademark attribution line (§7.5), when applicable. */
+  trademark?: string;
   accent: "blue" | "orange" | "gold" | "cyan";
+  source: string;
+  observedAt: string;
 };
 
+// Other service lines, §2.3 order after Internet: TV (YouTube TV partnership),
+// then Mobile, then Home Phone. WOW! has NO owned TV product — TV is framed as
+// the YouTube TV partnership per §2.3, with the Google trademark line (§7.5).
 export const products: Product[] = [
   {
-    id: "fiber",
-    eyebrow: "Fiber Internet",
-    title: "Symmetrical fiber up to 5 Gig",
-    body: "Where fiber's available, your uploads are as fast as your downloads. That's a real difference if you work from home, make content, or just never want to see a buffering spinner again.",
-    bullets: ["Uploads as fast as downloads", "Steady, low latency", "Room to grow"],
-    accent: "blue",
-  },
-  {
     id: "tv",
-    eyebrow: "Internet + TV",
-    title: "Bundle live TV with YouTube TV",
-    body: "Add live TV with YouTube TV, plus NFL Sunday Ticket for every game on Sunday (now $240 for the season). You get 100+ channels of sports, news and shows, and $10 a month off YouTube TV when you bundle.",
-    bullets: ["NFL Sunday Ticket — now $240", "$10/mo off YouTube TV", "Watch on any screen"],
+    eyebrow: "TV — YouTube TV partnership",
+    title: "Live TV through WOW!'s YouTube TV offer",
+    body: "WOW! doesn't sell its own TV service — it partners with YouTube TV. Bundle YouTube TV with WOW! Internet and get $10/mo off YouTube TV for 12 months. NFL Sunday Ticket is available (now $240 for the season with the YouTube TV Base Plan).",
+    bullets: ["$10/mo off YouTube TV for 12 months when bundled", "100+ live channels on any screen", "NFL Sunday Ticket available"],
+    priceNote: "Bundle discount with WOW! Internet",
+    trademark: "YouTube TV is a trademark of Google LLC.",
     accent: "orange",
+    source: SRC.home,
+    observedAt: OBSERVED_AT,
   },
   {
     id: "mobile",
-    eyebrow: "Mobile",
-    title: "Wireless at a fair price on nationwide 5G",
-    body: "Add WOW! Mobile lines on a reliable nationwide 5G network at a fair price, built to pair with your home internet.",
-    bullets: ["Nationwide 5G", "Flexible line options", "Made to bundle"],
+    eyebrow: "WOW! Mobile",
+    title: "Wireless on a nationwide 5G network",
+    body: "WOW! Mobile offers 1GB, 3GB, 8GB and Unlimited data plans on a nationwide 5G network, with no contract. Save up to $10/mo on your mobile bill when you bundle with WOW! Internet.",
+    bullets: ["1GB, 3GB, 8GB & Unlimited data plans", "From $15/mo per line", "Save up to $10/mo when bundled with Internet"],
+    priceNote: "From $15/mo per line · no contract",
     accent: "gold",
+    source: SRC.mobile,
+    observedAt: OBSERVED_AT,
   },
   {
     id: "phone",
     eyebrow: "Home Phone",
-    title: "A reliable home phone",
-    body: "Keep a dependable landline with the features you actually use: unlimited nationwide calling, voicemail and caller ID, all on one bill.",
-    bullets: ["Unlimited nationwide calls", "Keep your number", "Popular calling features"],
+    title: "WOW! Home Phone",
+    body: "A dependable landline with the calling features you actually use: unlimited local calling plus 100 minutes of long distance, caller ID, call forwarding, three-way calling and robocall blocking at no extra cost. Need unlimited long distance? Ask about WOW! Home Phone Plus.",
+    bullets: ["Unlimited local calling + 100 min long distance", "Caller ID, call forwarding & 3-way calling", "Robocall blocking included"],
+    priceNote: "From $9/mo with WOW! Internet",
     accent: "cyan",
+    source: SRC.phone,
+    observedAt: OBSERVED_AT,
   },
 ];
 
@@ -206,7 +243,7 @@ export const steps = [
   {
     n: "03",
     title: "Get connected — WOW! handles setup",
-    body: "WOW! ships a self-install kit for most plans; professional installation is available for a fee (free on fiber). Your install is scheduled with WOW! on the same call.",
+    body: "WOW! ships a self-install kit for most plans; professional installation is available for a fee (free on new fiber orders, limited time). Your install is scheduled with WOW! on the same call.",
   },
 ];
 
@@ -224,32 +261,36 @@ export const faqs: Faq[] = [
   {
     // Archetype 2 — Official-site disambiguation (compliance asset; string is lint-allowlisted).
     q: "Is this the official WOW! site?",
-    a: "No — this site is operated by an independent authorized dealer of WOW! (WideOpenWest). We help you compare and order WOW! services by phone, but WOW! is a separate company that owns its brand and trademarks. Your service agreement and billing relationship are with WOW!, not with this dealer.",
+    a: "No — this site is operated by an independent authorized dealer of WOW! (WideOpenWest). We help you compare WOW! plans and connect you with a trained sales agent to get set up, but WOW! is a separate company that owns its brand and trademarks. Your service agreement and billing relationship are with WOW!, not with this dealer.",
   },
   {
-    // Archetype 3 — Pricing / fees.
+    // Archetype 3 — Pricing / fees (real AutoPay + Paperless Billing terms).
     q: "What does the monthly price include, and are there extra fees?",
-    a: "The price you see is WOW!'s straightforward monthly rate for that speed with Auto Pay and paperless billing; taxes, fees and surcharges are additional. WOW! doesn't use teaser pricing, and you can add optional Price Lock for Life for $5/mo so your rate won't rise as long as you keep the same speed. Exact pricing is confirmed for your address when you call. Pricing shown is as of " + PRICING_AS_OF + ".",
+    a: "The price shown is WOW!'s base monthly rate for that speed with continuous subscription; taxes, fees and surcharges are additional. You may get a monthly discount for enrolling in AutoPay, and enrolling in Paperless Billing avoids WOW!'s $4/mo Paper Statement Fee. Optional Price Lock for Life ($5/mo) keeps your rate the same for as long as you keep the same speed. Exact pricing is confirmed for your address when you call. Pricing shown is as of " + PRICING_AS_OF + ".",
   },
   {
-    // Archetype 4 — Installation (self-install default; pro install available; via the call).
+    // Archetype 4 — Installation (self-install default; pro install fee; free on fiber, limited time).
     q: "How does installation work?",
-    a: "WOW! ships a self-install kit for most internet plans — it plugs in and sets up through a guided app, with no technician visit needed. If you'd rather have a professional handle it, professional installation is available for a fee (and is included free on fiber orders). Your install is scheduled with WOW! on the same call when you order.",
+    a: "WOW! ships a self-install kit for most internet plans — it plugs in and sets up through a guided app, with no technician visit needed. If you'd rather have a professional handle it, professional installation is available for a fee — on the Internet 1.2 Gig plan, WOW!'s Broadband Facts label lists $99.00 for a professional install and $10.00 for self-install activation — and WOW! is currently offering free professional installation on new fiber orders (limited time). Your install is scheduled with WOW! on the same call when you order.",
   },
   {
-    // Archetype 5 — Contract / data.
-    q: "Is there an annual contract or a data cap?",
-    a: "No. WOW! internet plans are month-to-month with no annual contract and no early-termination fee, and every plan includes unlimited data with no overage charges. You can change or cancel your plan whenever you need to.",
+    // Archetype 5 — Contract / data (no data-cap claim; WOW! states no contracts).
+    q: "Is there an annual contract?",
+    a: "No. WOW! internet plans are month-to-month with no annual contract and no early-termination fee, so you can change or cancel whenever you need to. For the exact data terms on a specific plan, an agent can confirm what applies at your address when you call.",
   },
   {
     // Archetype 6 — Equipment.
     q: "What equipment do I need, and can I use my own?",
-    a: "WOW!'s Whole-Home WiFi is powered by an eero system — typically two eero devices to blanket your home, with more available for larger spaces (WOW! uses TP-Link equipment on its 3 Gig and 5 Gig fiber tiers). Whether equipment is included or carries a monthly fee depends on the plan; an agent will confirm the equipment and any fee for your plan when you call.",
+    a: "Most plans include the equipment you need, and WOW!'s optional Whole-Home WiFi ($9.99/mo) adds a managed eero-style mesh to blanket your home in signal. Whether equipment is included or carries a monthly fee depends on the plan and speed; an agent will confirm the equipment and any fee for your plan when you call.",
   },
   {
-    // Archetype 7 — Support routing (REQUIRED, §1 new-orders-only): send existing customers to WOW!.
+    // Archetype 7 — Support routing (§10). OPERATOR TODO: the master spec (§1/§10)
+    // requires routing existing-customer support calls AWAY from the sales line to
+    // keep them out of conversion data. The specific WOW!-direct routing/number was
+    // removed per the operator's instruction — RESTORE a confirmed routing here once
+    // the operator decides where support traffic should go, if anywhere.
     q: "I'm already a WOW! customer — can you help with my bill, an outage, or cancelling?",
-    a: "Our line handles new orders only. For billing questions, outages, account changes, moves or cancellations on an existing account, please contact WOW! directly at " + siteConfig.carrierSupportDisplay + " or through your WOW! account — they manage all existing-customer support.",
+    a: "Our line handles new WOW! orders only. Help with an existing WOW! account — billing, outages, account changes or cancellations — is handled by WOW!'s own customer support, not by this dealer. You'll find the right contact on your WOW! bill or in your online WOW! account.",
   },
   {
     // Optional — What happens when I call (3-step, hours, recording disclosure).
@@ -259,7 +300,7 @@ export const faqs: Faq[] = [
   {
     // Optional — Speeds.
     q: "How fast can WOW! internet go?",
-    a: "Plans scale from everyday speeds up to multi-gig fiber. Where fiber is available, you can reach up to 5 Gig with symmetrical upload and download speeds. An agent will show you the fastest tier your address supports.",
+    a: "WOW! offers cable internet up to 2 Gig and, where available, fiber up to 5 Gig with symmetrical upload and download speeds. An agent will show you the fastest tier your address supports.",
   },
 ];
 
@@ -268,21 +309,27 @@ export type AddOn = {
   icon: string;
   name: string;
   body: string;
-  price: string; // "Included with X" / "$5/mo" / "Ask about pricing"
+  price: string;
 };
 
 export const addOns: AddOn[] = [
   {
     icon: "mesh",
-    name: "Whole-Home WiFi powered by eero",
-    body: "A managed eero mesh system (usually two devices) covers every room with a strong, steady signal. Add more for a larger home.",
-    price: "Included on select plans",
+    name: "Whole-Home WiFi",
+    body: "A managed eero-style mesh that blankets every room in a strong, steady signal. Add more coverage for larger homes.",
+    price: "$9.99/mo",
+  },
+  {
+    icon: "wifi",
+    name: "Modem & equipment",
+    body: "The equipment you need to get online is included with qualifying speeds, so there's no separate box to buy.",
+    price: "Included with qualifying speeds",
   },
   {
     icon: "bolt",
-    name: "WOW! Fiber Connection pack",
-    body: "Setup help on day one, so your fiber connection runs smoothly from the start.",
-    price: "Free on fiber",
+    name: "Self-install kit",
+    body: "A plug-and-play kit ships to your door for most plans, so you can get set up without a technician visit.",
+    price: "Included",
   },
   {
     icon: "lock",
@@ -291,40 +338,48 @@ export const addOns: AddOn[] = [
     price: "$5/mo",
   },
   {
-    icon: "infinity",
-    name: "Unlimited data on every plan",
-    body: "No data caps and no overage charges. It comes standard on every WOW! internet plan, not as an add-on.",
-    price: "Included",
+    icon: "shield",
+    name: "Free professional install (fiber)",
+    body: "New fiber orders currently include free professional installation. Limited-time offer, subject to change.",
+    price: "Free on fiber",
   },
   {
     icon: "tv",
-    name: "TV through WOW!'s YouTube TV offer",
-    body: "Live TV through WOW!'s YouTube TV offer: 100+ channels on any screen, with NFL Sunday Ticket available.",
+    name: "TV through YouTube TV",
+    body: "Bundle YouTube TV with WOW! Internet for $10/mo off YouTube TV for 12 months. NFL Sunday Ticket available.",
     price: "Bundle & save",
-  },
-  {
-    icon: "shield",
-    name: "30-day money-back guarantee",
-    body: "Try WOW! for 30 days. If it's not right for you, the guarantee has you covered.",
-    price: "Included",
   },
 ];
 
-/* ---- Honest fine-print grid (§2.5) — FCC-label-style facts per tier ------- */
+/* ---- Honest fine-print grid (§2.5) — sourced facts per plan --------------- */
 export type FineFactRow = { label: string; values: [string, string, string] };
 
-/** Column headers align to the three internet tiers above. */
-export const fineFactTiers = ["300 Mbps", "500 Mbps", "1 Gig"];
+export const fineFactTiers = ["Internet 300 Mbps", "Internet 1.2 Gig", "WOW! Fiber"];
 
+// Middle column (Internet 1.2 Gig) figures are sourced to WOW!'s FCC Broadband
+// Facts label (UPI F0018579375MP24DATA12105AA). Cells without a confirmed source
+// read "Ask when you call" rather than guessing.
 export const fineFacts: FineFactRow[] = [
-  { label: "Monthly price", values: ["$25/mo", "$40/mo", "$80/mo"] },
-  { label: "Promo length", values: ["No teaser pricing", "No teaser pricing", "No teaser pricing"] },
-  { label: "Price after promo", values: ["Same rate", "Same rate", "Same rate"] },
-  { label: "Self-install kit fee", values: ["Ask when you call", "Ask when you call", "Ask when you call"] },
-  { label: "Professional install", values: ["Available for a fee", "Available for a fee", "Free on fiber"] },
-  { label: "Equipment fee", values: ["Ask when you call", "Ask when you call", "Ask when you call"] },
-  { label: "Typical speeds (down)", values: ["Up to 300 Mbps", "Up to 500 Mbps", "Up to 1 Gbps"] },
-  { label: "Data cap", values: ["No data cap", "No data cap", "No data cap"] },
+  { label: "Monthly price", values: ["$25/mo", "$105/mo", "From $40/mo"] },
+  { label: "AutoPay discount", values: ["Available", "Available", "Available"] },
+  { label: "Paperless Billing", values: ["$4/mo fee if not enrolled", "$4/mo fee if not enrolled", "$4/mo fee if not enrolled"] },
+  { label: "Price after enrollment", values: ["Base monthly rate", "Base monthly rate", "Base monthly rate"] },
+  { label: "One-time fee — self-install activation", values: ["Ask when you call", "$10.00", "Ask when you call"] },
+  { label: "One-time fee — professional install", values: ["Ask when you call", "$99.00", "Free (limited time)"] },
+  { label: "Equipment / modem", values: ["Included w/ qualifying speeds", "Included w/ qualifying speeds", "Included w/ qualifying speeds"] },
+  { label: "Whole-Home WiFi", values: ["$9.99/mo add-on", "$9.99/mo add-on", "$9.99/mo add-on"] },
+  { label: "Typical speeds (down / up)", values: ["Up to 300 Mbps", "1,200 / 48 Mbps", "Up to 5 Gig"] },
+  { label: "Typical latency", values: ["Ask when you call", "22 ms", "Ask when you call"] },
+  { label: "Data", values: ["Ask when you call", "Unlimited", "Ask when you call"] },
   { label: "Contract", values: ["No annual contract", "No annual contract", "No annual contract"] },
 ];
 
+/* ---- Pricing / promo disclaimers (§7.4 / §9.4) — WOW!-sourced fine print -- */
+export const disclaimers: string[] = [
+  "Pricing shown is WOW!'s base monthly rate for new residential customers with continuous subscription; availability, speeds and pricing vary by address and are confirmed by phone. (wowway.com/internet)",
+  "AutoPay: you may be eligible for a monthly discount when you enroll in AutoPay. The discount applies only after enrollment and may take up to one billing cycle to appear on your bill.",
+  "Paperless Billing: enrolling in Paperless Billing eliminates WOW!'s $4/mo Paper Statement Fee.",
+  "Installation: WOW! ships a self-install kit for most plans. On the Internet 1.2 Gig plan, WOW!'s Broadband Facts label lists a $10.00 self-install activation fee and a $99.00 professional installation fee. New fiber orders currently include free professional installation — limited-time offer, subject to change.",
+  "VISA® Prepaid Reward Card offers, where available, require purchasing a qualifying speed, a valid email address, and maintaining service in good standing for at least 90 days.",
+  "Taxes, fees and surcharges are additional, and late payment fees may apply under WOW!'s terms. Plans, prices and promotions are set by WOW!, subject to change, and confirmed at the time of your order. Pricing as of " + PRICING_AS_OF + ".",
+];

@@ -1295,7 +1295,22 @@ ul { list-style: none; }
 .ts-perks svg { color: #10ACE3; flex-shrink: 0; margin-top: 2px; }
 .ts-cta { margin-top: 1.5rem; }
 
-.plans-fineprint { text-align: center; color: #8fa8bd; font-size: 0.82rem; margin-top: 1.8rem; max-width: 720px; margin-inline: auto; }
+/* Collapsed "Terms & conditions" disclosure (§7.4) — reachable, not dominant. */
+.plans-terms { max-width: 720px; margin: 2rem auto 0; border-top: 1px solid rgba(255, 255, 255, 0.12); }
+.plans-terms > summary {
+  list-style: none; cursor: pointer; user-select: none;
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  padding: 0.9rem 0.5rem; text-align: center;
+  font-family: var(--font-display); font-weight: 700; font-size: 0.82rem;
+  letter-spacing: 0.06em; text-transform: uppercase; color: #b7cad9;
+}
+.plans-terms > summary::-webkit-details-marker { display: none; }
+.plans-terms > summary:hover { color: #fff; }
+.plans-terms > summary svg { transition: transform 0.25s var(--ease); }
+.plans-terms[open] > summary svg { transform: rotate(45deg); }
+.plans-fineprint { color: #8fa8bd; font-size: 0.8rem; line-height: 1.55; max-width: 720px; margin: 0 auto 0.5rem; }
+.plans-fineprint p { margin: 0 0 0.6rem; }
+.plans-fineprint p:last-child { margin-bottom: 0; }
 
 /* ---- Plans — pricing columns --------------------------------------------
    Layout A: three tall vertical price cards side by side. */
@@ -1348,6 +1363,8 @@ ul { list-style: none; }
 .lockup__fine { font-size: 0.72rem; margin: 0.35rem 0 0; }
 .lockup__fine a { color: #9fb9cf; text-decoration: underline; }
 .lockup__fine a:hover { color: #fff; }
+.lockup__from { font-family: var(--font-display); font-weight: 700; font-size: 0.9rem; color: #9fb9cf; align-self: center; }
+.lockup__callrate { font-family: var(--font-display); font-weight: 800; font-size: 1.2rem; color: #fff; margin: 0; line-height: 1.3; }
 /* In a Plans card the lockup sits just below the speed row. */
 .pc-lockup { margin-top: 1.1rem; }
 .pc-best { margin-top: 1rem; font-size: 0.85rem; color: #bcd2e3; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--r-sm); padding: 0.6rem 0.8rem; }
@@ -1586,6 +1603,8 @@ ul { list-style: none; }
   background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 0.3rem 0.65rem; border-radius: var(--pill);
 }
+.bc-price { margin: 0.55rem 0 0; font-family: var(--font-display); font-weight: 800; font-size: 0.9rem; color: var(--a); }
+.bc-tm { grid-column: 1 / -1; margin: 0.5rem 0 0; font-size: 0.68rem; color: #8fa3b6; }
 .bcards-cta { display: flex; justify-content: center; margin-top: 1.8rem; }
 /* On wide screens: photo panel left, copy centre, chips right. */
 @media (min-width: 760px) {

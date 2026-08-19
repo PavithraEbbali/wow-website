@@ -79,7 +79,8 @@ export function Fiber() {
           <p className="fiber-offer">
             <Icon name="check-circle" size={18} />
             <span>
-              <b>Free professional install</b> — a $100 value, included with every fiber order.
+              <b>Free professional installation</b> on new fiber orders. Limited-time offer, subject
+              to change.
             </span>
           </p>
         </Reveal>

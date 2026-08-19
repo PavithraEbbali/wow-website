@@ -4,7 +4,7 @@ import { Icon, type IconName } from "@/lib/icons";
 import { products } from "@/lib/content";
 import { siteConfig } from "@/lib/site.config";
 
-const ICONS: Record<string, IconName> = { fiber: "fiber", tv: "tv", mobile: "mobile", phone: "phone" };
+const ICONS: Record<string, IconName> = { tv: "tv", mobile: "mobile", phone: "phone" };
 
 export function Products() {
   return (
@@ -43,19 +43,21 @@ export function Products() {
                     decoding="async"
                   />
                   <span className="bc-ic">
-                    <Icon name={ICONS[p.id] ?? "fiber"} size={22} />
+                    <Icon name={ICONS[p.id] ?? "tv"} size={22} />
                   </span>
                 </div>
                 <div className="bc-body">
                   <span className="bc-eyebrow">{p.eyebrow}</span>
                   <h3>{p.title}</h3>
                   <p>{p.body}</p>
+                  {p.priceNote && <p className="bc-price">{p.priceNote}</p>}
                 </div>
                 <ul className="bc-chips">
                   {p.bullets.map((b) => (
                     <li key={b}>{b}</li>
                   ))}
                 </ul>
+                {p.trademark && <p className="bc-tm">{p.trademark}</p>}
               </article>
             </Reveal>
           ))}
