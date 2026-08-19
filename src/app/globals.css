@@ -2685,6 +2685,35 @@ ul { list-style: none; }
 .ff-table tbody th { font-weight: 700; color: var(--navy); white-space: nowrap; background: var(--bg-soft); }
 .ff-table tbody td { color: var(--body); }
 .ff-table tbody tr:last-child th, .ff-table tbody tr:last-child td { border-bottom: 0; }
+
+/* Mobile (≤640px): the 4-column table doesn't fit a phone and a scrolling table
+   with long row labels reads badly, so stack each fact into its own card with
+   the plan name shown per value (::before from data-label). No horizontal
+   scroll, no cut-off edges, everything ≥13px. */
+@media (max-width: 640px) {
+  .ff-scroll { overflow-x: visible; border: 0; border-radius: 0; margin-top: 1.6rem; }
+  .ff-table { min-width: 0; width: 100%; background: transparent; font-size: 0.95rem; }
+  .ff-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .ff-table tbody, .ff-table tbody tr, .ff-table tbody th, .ff-table tbody td { display: block; width: 100%; }
+  .ff-table tbody tr {
+    background: #fff; border: 1px solid var(--line); border-radius: var(--r);
+    margin-bottom: 0.9rem; padding: 0.2rem 1rem 0.7rem; box-shadow: var(--shadow-sm, 0 8px 24px -18px rgba(0,26,60,0.4));
+  }
+  .ff-table tbody th {
+    white-space: normal; background: transparent; color: var(--navy);
+    font-family: var(--font-display); font-size: 0.95rem; padding: 0.75rem 0 0.55rem;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .ff-table tbody td {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
+    padding: 0.5rem 0; border-bottom: 1px solid var(--line-soft); text-align: right; font-size: 0.9rem;
+  }
+  .ff-table tbody td:last-child { border-bottom: 0; }
+  .ff-table tbody td::before {
+    content: attr(data-label); flex-shrink: 0; text-align: left;
+    font-weight: 700; color: #5b7085; font-size: 0.82rem;
+  }
+}
 .ff-foot {
   display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.2rem;
   margin-top: 1.2rem; font-size: 0.82rem; color: var(--muted);

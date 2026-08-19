@@ -44,7 +44,9 @@ export function FineFacts() {
                   <tr key={row.label}>
                     <th scope="row">{row.label}</th>
                     {row.values.map((v, i) => (
-                      <td key={i}>{v}</td>
+                      <td key={i} data-label={fineFactTiers[i]}>
+                        {v}
+                      </td>
                     ))}
                   </tr>
                 ))}
