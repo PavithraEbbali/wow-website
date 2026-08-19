@@ -87,7 +87,7 @@ export const plans: Plan[] = [
     unit: "Gig",
     price: "105",
     period: "/mo",
-    qualifier: "base monthly rate · continuous subscription · AutoPay discount available",
+    qualifier: "Fixed monthly rate · AutoPay discount available",
     stepUp: "plus taxes, fees & surcharges",
     accent: "blue",
     bestFor: "Busy homes with lots of devices online at once",
