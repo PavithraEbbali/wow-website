@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="WOW!">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#10ACE3" />
+      <stop offset="0.5" stop-color="#0072A8" />
+      <stop offset="1" stop-color="#F26124" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#001A3C" />
+  <polyline points="13,17 21,47 32,29 43,47 51,17" fill="none" stroke="url(#g)" stroke-width="5.5" stroke-linejoin="round" stroke-linecap="round" />
+  <circle cx="54" cy="14" r="3.4" fill="#FFC40C" />
+</svg>

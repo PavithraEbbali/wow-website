@@ -1,0 +1,19 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "wow-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 4000,
+      "autoPort": false
+    },
+    {
+      "name": "wow-static",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["scripts/static-server.mjs"],
+      "port": 5050,
+      "autoPort": true
+    }
+  ]
+}

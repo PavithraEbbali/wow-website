@@ -1,0 +1,12 @@
+{
+  "name": "WOW! Authorized Dealer",
+  "short_name": "WOW! Dealer",
+  "description": "Order WOW! Internet, Fiber, TV, Mobile and Home Phone through an independent authorized dealer.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#001a3c",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

@@ -1,0 +1,8 @@
+# Exact full strings this spec mandates verbatim — exempt from the banned-phrase
+# lint (§5.3). Exact-match only; any edit re-enters lint scope. One entry per
+# line; blank lines and lines starting with # are ignored.
+
+# §10 archetype-2 question (compliance asset).
+Is this the official WOW! site?
+# §2.5 grid link line.
+See WOW!'s official Broadband Facts label →
