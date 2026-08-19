@@ -277,9 +277,11 @@ ul { list-style: none; }
 }
 
 /* ---- Header -------------------------------------------------------------- */
-/* Sticky mobile call bar (§2.10) — always visible < 760px, full-width tap-to-call. */
+/* Sticky call bar (§2.10) — persistent tap-to-call on phones AND tablets, up to
+   the width where the header call button appears (900px), so the number is never
+   without a prominent CTA. */
 .sticky-callbar { display: none; }
-@media (max-width: 759px) {
+@media (max-width: 899px) {
   .sticky-callbar {
     display: flex; align-items: center; justify-content: center; gap: 0.5rem;
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 1200;
@@ -612,7 +614,7 @@ ul { list-style: none; }
 /* ---- Headline --------------------------------------------------------------- */
 .hero-title {
   font-family: var(--font-display); font-weight: 800; color: #fff;
-  font-size: clamp(2.95rem, 6.9vw, 6.1rem); line-height: 1.01; letter-spacing: -0.038em;
+  font-size: clamp(2.1rem, 6.9vw, 6.1rem); line-height: 1.03; letter-spacing: -0.038em;
   /* Extra bottom margin so the underline swoosh (which extends below the last
      line, plus its drop-shadow) clears the sub-copy with a clean gap. */
   margin: 1.4rem 0 2.8rem; text-wrap: balance;
@@ -701,6 +703,13 @@ ul { list-style: none; }
 .hero-chips li svg { color: #46d08a; }
 .hero-light .hero-chips li { color: #24384a; background: rgba(255, 255, 255, 0.72); border-color: rgba(0, 40, 80, 0.12); }
 .hero-light .hero-chips li svg { color: #0a8a4e; }
+/* On small phones, stack the hero CTAs full-width for bigger tap targets and so
+   the long call-button label (with the number) never gets cramped. */
+@media (max-width: 520px) {
+  .hero-cta { flex-direction: column; align-items: stretch; }
+  .hero-cta .btn { width: 100%; justify-content: center; }
+  .hero-support { max-width: none; }
+}
 
 /* ---- ZIP check ------------------------------------------------------------- */
 .zip-form { display: flex; flex-wrap: wrap; gap: 0.7rem; align-items: stretch; margin-top: 1.9rem; }
@@ -2362,6 +2371,7 @@ ul { list-style: none; }
 .footer-col a { font-size: 0.9rem; color: #a9c0d3; transition: color 0.25s ease, padding-left 0.25s ease; }
 .footer-col a:hover { color: #fff; padding-left: 4px; }
 .footer-cols { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+@media (max-width: 479px) { .footer-cols { grid-template-columns: 1fr; gap: 1.6rem; } }
 .footer-disclosure {
   margin-top: 2.5rem; padding-top: 1.8rem; border-top: 1px solid rgba(255,255,255,0.1);
   font-size: 0.78rem; color: #7f97ac; line-height: 1.6;
@@ -2557,7 +2567,7 @@ ul { list-style: none; }
 .addons-cta { display: flex; justify-content: center; margin-top: 2.2rem; }
 
 /* ---- Honest fine-print grid (§2.5) --------------------------------------- */
-.ff-scroll { margin-top: 2.4rem; overflow-x: auto; border-radius: var(--r-lg); border: 1px solid var(--line); }
+.ff-scroll { margin-top: 2.4rem; overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: var(--r-lg); border: 1px solid var(--line); }
 .ff-table { width: 100%; border-collapse: collapse; min-width: 560px; background: #fff; font-size: 0.9rem; }
 .ff-table th, .ff-table td { padding: 0.8rem 1rem; text-align: left; border-bottom: 1px solid var(--line-soft); }
 .ff-table thead th { background: var(--navy); color: #fff; font-family: var(--font-display); font-weight: 800; }
