@@ -16,11 +16,11 @@ export function Plans() {
           <Reveal>
             <span className="kicker">Plans &amp; pricing</span>
           </Reveal>
-          <SplitHeading segments={[{ text: "Straightforward speeds," }, { text: "honest pricing", flow: true }]} />
+          <SplitHeading segments={[{ text: "Simple plans," }, { text: "prices up front", flow: true }]} />
           <Reveal delay={0.1}>
             <p>
-              Pick the WOW! internet tier that fits your home. Every plan is month-to-month with
-              unlimited data — and we&apos;ll help you add TV, mobile or whole-home Wi-Fi if you want it.
+              Find the WOW! internet speed that fits your household. Every plan is month-to-month with
+              unlimited data, and you can add TV, mobile or whole-home Wi-Fi whenever you want.
             </p>
           </Reveal>
         </div>

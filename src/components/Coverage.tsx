@@ -21,9 +21,9 @@ export function Coverage() {
           <SplitHeading className="cov-h2" segments={[{ text: "Serving homes across" }, { text: "8 states", flow: true }]} />
           <Reveal delay={0.1}>
             <p style={{ color: "var(--muted)", fontSize: "var(--fs-lead)" }}>
-              WOW! builds and maintains its own network in select communities. Coverage is
-              neighborhood-specific, so the fastest way to know your options is a quick address check —
-              it takes seconds.
+              WOW! builds and runs its own network in select communities, and coverage can vary from
+              one street to the next. The quickest way to know your options is a short address check
+              over the phone.
             </p>
           </Reveal>
           <Reveal delay={0.16}>
@@ -35,8 +35,8 @@ export function Coverage() {
           </Reveal>
           <Reveal delay={0.2}>
             <p className="cov-note">
-              Not in a covered area yet? Leave your details and we&apos;ll reach out the moment WOW!
-              expands to your street.
+              Not covered yet? WOW! is still expanding, so it&apos;s worth a quick call to check
+              what&apos;s available near you.
             </p>
           </Reveal>
         </div>

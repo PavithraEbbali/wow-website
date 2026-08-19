@@ -50,9 +50,9 @@ export function Hero() {
           </h1>
 
           <p className="hero-sub">
-            Compare WOW! fiber and cable plans and order in a single call — no contracts, no data
-            caps, unlimited data on every plan. Trained sales agents confirm what&apos;s available at
-            your exact address and quote today&apos;s WOW! pricing.
+            Compare WOW! fiber and cable plans and order in one call. No contracts, no data caps, and
+            unlimited data on every plan. A trained sales agent checks what&apos;s available at your
+            address and quotes today&apos;s WOW! pricing.
           </p>
 
           <div className="hero-cta">

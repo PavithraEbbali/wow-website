@@ -8,18 +8,18 @@ import { siteConfig } from "@/lib/site.config";
 const FIBER_CARDS: { icon: IconName; title: string; body: string }[] = [
   {
     icon: "infinity",
-    title: "Symmetrical speeds",
-    body: "Where fiber reaches your home, uploads run every bit as fast as downloads — effortless 4K uploads, cloud backups and sharing.",
+    title: "Uploads that keep up",
+    body: "Where fiber reaches your home, uploads are as fast as downloads. So 4K uploads, cloud backups and big file shares just work.",
   },
   {
     icon: "bolt",
-    title: "Low-latency & lag-free",
-    body: "Rock-steady connections for gaming and video calls that never freeze, even with the whole house online at once.",
+    title: "Low latency, no lag",
+    body: "Steady connections for gaming and video calls that don't freeze, even with the whole house online at once.",
   },
   {
     icon: "shield",
-    title: "Future-proof capacity",
-    body: "Fiber is built for whatever's next, so your connection has plenty of room to grow for years to come.",
+    title: "Room to grow",
+    body: "Fiber has plenty of headroom, so your connection can keep up for years to come.",
   },
 ];
 
@@ -40,11 +40,12 @@ export function Fiber() {
           <Reveal>
             <span className="kicker fiber-kicker">WOW! Fiber</span>
           </Reveal>
-          <SplitHeading className="fiber-h2" segments={[{ text: "Symmetrical fiber, built for whatever’s next" }]} />
+          <SplitHeading className="fiber-h2" segments={[{ text: "Fast fiber, with uploads to match" }]} />
           <Reveal delay={0.1}>
             <p className="fiber-lead">
-              Where fiber reaches your home, uploads run every bit as fast as downloads — the sweet
-              spot for creators, remote teams and homes that never want to think about buffering again.
+              Where fiber reaches your home, your uploads are just as fast as your downloads. It&apos;s
+              ideal if you make content, work remotely, or just want a connection that doesn&apos;t
+              slow down when everyone&apos;s online.
             </p>
           </Reveal>
         </div>

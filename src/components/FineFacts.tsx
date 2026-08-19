@@ -14,14 +14,14 @@ export function FineFacts() {
       <div className="container">
         <div className="section-head center">
           <Reveal>
-            <span className="kicker">The honest fine print</span>
+            <span className="kicker">The fine print</span>
           </Reveal>
           <SplitHeading segments={[{ text: "Plan facts," }, { text: "no surprises", flow: true }]} />
           <Reveal delay={0.1}>
             <p>
-              The numbers that matter, side by side — the way WOW!&apos;s official Broadband Facts
-              labels lay them out. Taxes, fees and surcharges are extra; your exact figures are
-              confirmed for your address by phone.
+              The numbers that matter, side by side, the way WOW!&apos;s official Broadband Facts
+              labels lay them out. Taxes, fees and surcharges are extra, and your exact figures are
+              confirmed by phone for your address.
             </p>
           </Reveal>
         </div>

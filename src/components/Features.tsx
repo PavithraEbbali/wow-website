@@ -16,11 +16,11 @@ export function Features() {
           <Reveal>
             <span className="kicker">Why WOW!</span>
           </Reveal>
-          <SplitHeading segments={[{ text: "The perks that make people" }, { text: "say WOW!", flow: true }]} />
+          <SplitHeading segments={[{ text: "What you actually get" }, { text: "with WOW!", flow: true }]} />
           <Reveal delay={0.1}>
             <p>
-              No gimmicks, no fine-print traps. Just fast, dependable internet backed by the things
-              that actually matter when you&apos;re online all day.
+              No gimmicks. Just fast, dependable internet and the things that actually matter when
+              you&apos;re online all day.
             </p>
           </Reveal>
         </div>

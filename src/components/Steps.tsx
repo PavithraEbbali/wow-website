@@ -21,7 +21,7 @@ export function Steps() {
           </Reveal>
           <SplitHeading segments={[{ text: "Online in three" }, { text: "simple steps", flow: true }]} />
           <Reveal delay={0.1}>
-            <p>From address check to first stream, we make switching to WOW! genuinely easy.</p>
+            <p>Getting set up is quick, and it starts with one phone call.</p>
           </Reveal>
         </div>
 

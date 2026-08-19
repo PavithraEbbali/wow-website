@@ -18,11 +18,11 @@ export function Products() {
           <Reveal>
             <span className="kicker">More ways to connect</span>
           </Reveal>
-          <SplitHeading segments={[{ text: "Bundle internet with TV," }, { text: "mobile & home phone", flow: true }]} />
+          <SplitHeading segments={[{ text: "Add TV, mobile" }, { text: "and home phone", flow: true }]} />
           <Reveal delay={0.1}>
             <p>
-              Keep everything on one simple bill and save when you combine services. Mix and match
-              what your household actually uses.
+              Put everything on one bill and save when you combine services. Mix and match what your
+              household actually uses.
             </p>
           </Reveal>
         </div>

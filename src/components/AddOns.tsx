@@ -19,8 +19,8 @@ export function AddOns() {
           <SplitHeading segments={[{ text: "Everything you can add" }, { text: "to your plan", flow: true }]} />
           <Reveal delay={0.1}>
             <p>
-              Real WOW! features and add-ons — mesh Wi-Fi, price protection, unlimited data and more.
-              Ask about any of these when you call.
+              The extras WOW! offers, from mesh Wi-Fi to price protection. Ask about any of them when
+              you call.
             </p>
           </Reveal>
         </div>
