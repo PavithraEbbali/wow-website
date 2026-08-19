@@ -1,5 +1,6 @@
 import { Reveal } from "./ui/Reveal";
 import { SplitHeading } from "./ui/SplitHeading";
+import { Lockup } from "./ui/Lockup";
 import { Icon } from "@/lib/icons";
 import { plans } from "@/lib/content";
 import { siteConfig } from "@/lib/site.config";
@@ -39,12 +40,7 @@ export function Plans() {
                   <b>{p.download}</b>
                   <i>{p.unit}</i>
                 </div>
-                <div className="pc-price">
-                  <span className="cur">$</span>
-                  <b>{p.price}</b>
-                  <i>{p.period}</i>
-                </div>
-                <p className="pc-qual">{p.qualifier}</p>
+                <Lockup plan={p} className="pc-lockup" />
                 <p className="pc-best">
                   <b>Best for:</b> {p.bestFor}
                 </p>

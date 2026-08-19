@@ -552,15 +552,16 @@ ul { list-style: none; }
 .hero-inner {
   position: relative; z-index: 2;
   min-height: min(82vh, 760px);
-  display: flex; align-items: center;
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: clamp(1.8rem, 4vw, 3.2rem);
   /* Tight top pad — the sticky header already sits above, so a big top inset
      just left a dead band over the badge. Bottom stays generous for the wave. */
   padding-block: clamp(1.25rem, 3.5vw, 2.75rem) clamp(4.5rem, 10vw, 7rem);
 }
-/* Copy flows normally (never clips) on the left over the photo — a two-column
-   feel with no grid split. */
+/* Copy on the left, price card on the right; wraps (card drops below) on narrow. */
 .hero-copy {
   position: relative;
+  flex: 1 1 30rem;
   max-width: 760px;
   text-shadow: 0 2px 24px rgba(2, 12, 28, 0.6);
 }
@@ -709,6 +710,40 @@ ul { list-style: none; }
   .hero-cta { flex-direction: column; align-items: stretch; }
   .hero-cta .btn { width: 100%; justify-content: center; }
   .hero-support { max-width: none; }
+}
+
+/* ---- Hero dark price-lockup card (§3 lockup reused, static) --------------- */
+.hero-pricecard {
+  position: relative;
+  flex: 0 1 360px;
+  width: 100%;
+  max-width: 380px;
+  align-self: center;
+  padding: 1.7rem 1.7rem 1.6rem;
+  border-radius: 22px;
+  background: linear-gradient(158deg, #0b1f38 0%, #071426 60%, #050f1d 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 40px 80px -40px rgba(0, 10, 26, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+.hpc-plan {
+  font-family: var(--font-display); font-weight: 800; font-size: 0.72rem;
+  letter-spacing: 0.12em; text-transform: uppercase; color: #8fd6f5;
+  margin: 0 0 0.9rem;
+}
+.lockup--dark .lockup__int { font-size: 3.4rem; }
+.hpc-cta {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  width: 100%; margin-top: 1.4rem;
+  padding: 0.9rem 1.2rem; border-radius: var(--pill);
+  background: linear-gradient(135deg, #ff7a3c, #f26124);
+  color: #fff; font-family: var(--font-display); font-weight: 800; font-size: 1.02rem;
+  box-shadow: 0 14px 30px -12px rgba(242, 97, 36, 0.8);
+  transition: filter 0.25s ease, transform 0.25s ease;
+}
+.hpc-cta:hover { filter: brightness(1.06); transform: translateY(-1px); }
+@media (max-width: 760px) {
+  .hero-pricecard { max-width: 440px; }
 }
 
 /* ---- ZIP check ------------------------------------------------------------- */
@@ -1255,10 +1290,20 @@ ul { list-style: none; }
 .pc-speed svg { align-self: center; }
 .pc-speed b { font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; }
 .pc-speed i { font-style: normal; font-size: 0.78rem; font-weight: 700; }
-.pc-price { display: flex; align-items: baseline; gap: 0.1rem; margin-top: 1.1rem; }
-.pc-price .cur { font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; color: #cfe2ef; }
-.pc-price b { font-family: var(--font-display); font-weight: 800; font-size: 3.1rem; color: #fff; line-height: 1; letter-spacing: -0.02em; }
-.pc-price i { font-style: normal; color: #9fb9cf; font-size: 0.95rem; }
+/* ---- §3 price lockup — the single price component (Plans cards + hero card).
+   Styled for a DARK card (white figure); both use-sites are dark. ------------- */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.lockup__row { display: flex; align-items: baseline; gap: 0.1rem; margin: 0; font-variant-numeric: tabular-nums; line-height: 1; }
+.lockup__cur { font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; color: #cfe2ef; }
+.lockup__int { font-family: var(--font-display); font-weight: 800; font-size: 3.1rem; color: #fff; line-height: 1; letter-spacing: -0.02em; }
+.lockup__per { font-style: normal; color: #9fb9cf; font-size: 0.95rem; margin-left: 0.15rem; }
+.lockup__qual { font-size: 0.8rem; color: #cbdcea; margin: 0.55rem 0 0; line-height: 1.4; }
+.lockup__step { font-size: 0.75rem; color: #9fb9cf; margin: 0.2rem 0 0; line-height: 1.4; }
+.lockup__fine { font-size: 0.72rem; margin: 0.35rem 0 0; }
+.lockup__fine a { color: #9fb9cf; text-decoration: underline; }
+.lockup__fine a:hover { color: #fff; }
+/* In a Plans card the lockup sits just below the speed row. */
+.pc-lockup { margin-top: 1.1rem; }
 .pc-best { margin-top: 1rem; font-size: 0.85rem; color: #bcd2e3; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--r-sm); padding: 0.6rem 0.8rem; }
 .pc-best b { color: #fff; }
 .pc-perks { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 1.1rem; }

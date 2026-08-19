@@ -22,8 +22,14 @@ export type Plan = {
   unit: string;
   price: string;
   period: string;
-  /** Verbatim promo condition shown under the price (e.g. AutoPay requirement). */
+  /** Promo condition shown directly under the price (§3 qualifier line). */
   qualifier: string;
+  /**
+   * §3 step-up line. WOW! uses no-teaser pricing (the rate is the ongoing rate,
+   * protected by optional Price Lock for Life), so there is no promotional
+   * increase to invent — the honest step-up states the rate holds.
+   */
+  stepUp: string;
   accent: "blue" | "orange" | "gold" | "cyan";
   bestFor: string;
   perks: string[];
@@ -41,7 +47,8 @@ export const plans: Plan[] = [
     unit: "Mbps",
     price: "25",
     period: "/mo",
-    qualifier: "with Auto Pay & Paperless Billing · plus taxes, fees & surcharges",
+    qualifier: "with Auto Pay & Paperless Billing",
+    stepUp: "then the same rate · plus taxes, fees & surcharges",
     accent: "cyan",
     bestFor: "One or two people, smaller homes and light streaming",
     perks: [
@@ -60,7 +67,8 @@ export const plans: Plan[] = [
     unit: "Mbps",
     price: "40",
     period: "/mo",
-    qualifier: "with Auto Pay & Paperless Billing · plus taxes, fees & surcharges",
+    qualifier: "with Auto Pay & Paperless Billing",
+    stepUp: "then the same rate · plus taxes, fees & surcharges",
     accent: "blue",
     bestFor: "Busy homes with lots of devices",
     perks: [
@@ -80,7 +88,8 @@ export const plans: Plan[] = [
     unit: "Gig",
     price: "80",
     period: "/mo",
-    qualifier: "with Auto Pay & Paperless Billing · plus taxes, fees & surcharges",
+    qualifier: "with Auto Pay & Paperless Billing",
+    stepUp: "then the same rate · plus taxes, fees & surcharges",
     accent: "orange",
     bestFor: "Gamers, creators and larger connected homes",
     perks: [

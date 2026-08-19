@@ -1,5 +1,7 @@
 import { Icon } from "@/lib/icons";
 import { siteConfig } from "@/lib/site.config";
+import { plans } from "@/lib/content";
+import { Lockup } from "./ui/Lockup";
 
 /**
  * Hero (§2.2) — offer-led, static, phone-first.
@@ -15,6 +17,10 @@ import { siteConfig } from "@/lib/site.config";
  * animation-gated, so it's LCP-friendly and can never get stuck hidden.
  */
 const HERO_CHIPS = ["No annual contract", "Unlimited data", "Up to 5 Gig fiber", "Price Lock available"];
+
+// Lead price anchor for the hero card — the featured (most-popular) plan, read
+// straight from content.ts so the number always traces to the sourced object.
+const heroPlan = plans.find((p) => p.featured) ?? plans[0];
 
 export function Hero() {
   return (
@@ -80,6 +86,18 @@ export function Hero() {
             ))}
           </ul>
         </div>
+
+        {/* Dark price-lockup card — the §3 lockup reused (see ui/Lockup), driven
+            by the sourced heroPlan; static, no continuous animation. */}
+        <aside className="hero-pricecard" aria-label={`${heroPlan.tier} pricing`}>
+          <p className="hpc-plan">
+            WOW! Internet · {heroPlan.download} {heroPlan.unit}
+          </p>
+          <Lockup plan={heroPlan} className="lockup--dark" />
+          <a className="btn hpc-cta" href={siteConfig.phoneHref} data-call-cta>
+            <Icon name="phone" size={18} /> Call {siteConfig.phoneDisplay}
+          </a>
+        </aside>
       </div>
 
       <svg className="wave-sep" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
