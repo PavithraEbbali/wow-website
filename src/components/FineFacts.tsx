@@ -56,17 +56,26 @@ export function FineFacts() {
         </Reveal>
 
         <Reveal delay={0.1}>
-          <p className="ff-foot">
-            <a href="https://www.wowway.com/policies/broadband-labels" target="_blank" rel="noopener noreferrer">
-              See WOW!&apos;s official Broadband Facts label →
-            </a>
-            <span>
-              Facts sourced from {PRICING_SOURCE}, {PRICING_AS_OF}. Confirm at your address by phone.
-            </span>
+          <div className="ff-foot">
+            {/* Fine-print group: label link + sourcing line, muted/secondary. */}
+            <p className="ff-source">
+              <a
+                className="ff-label"
+                href="https://www.wowway.com/policies/broadband-labels"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                See WOW!&apos;s official Broadband Facts label →
+              </a>
+              <span>
+                Facts sourced from {PRICING_SOURCE}, {PRICING_AS_OF}. Confirm at your address by phone.
+              </span>
+            </p>
+            {/* Exactly one small, secondary call link under the grid (§2.5). */}
             <a href={siteConfig.phoneHref} data-call-cta className="ff-call">
               Call {siteConfig.phoneDisplay}
             </a>
-          </p>
+          </div>
         </Reveal>
       </div>
     </section>
