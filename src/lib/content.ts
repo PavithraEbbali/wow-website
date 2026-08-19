@@ -26,6 +26,8 @@ const SRC = {
   fiberDeals: "https://www.wowway.com/fiber-internet-deals-and-packages",
   mobile: "https://www.wowway.com/phone/mobile",
   phone: "https://www.wowway.com/phone",
+  phoneHome: "https://www.wowway.com/phone/home",
+  tv: "https://www.wowway.com/wow/tv/channel-lineups",
   home: "https://www.wowway.com/",
 } as const;
 
@@ -65,7 +67,7 @@ export const plans: Plan[] = [
     unit: "Mbps",
     price: "25",
     period: "/mo",
-    qualifier: "base monthly rate · continuous subscription · AutoPay discount available",
+    qualifier: "Starting price · AutoPay discount available",
     stepUp: "plus taxes, fees & surcharges",
     accent: "cyan",
     bestFor: "One or two people, smaller homes and everyday streaming",
@@ -179,23 +181,49 @@ export type Product = {
   priceNote?: string;
   /** Partner trademark attribution line (§7.5), when applicable. */
   trademark?: string;
+  /** Image basename in /img (defaults to bundle-<id>); set to reuse an image. */
+  image?: string;
   accent: "blue" | "orange" | "gold" | "cyan";
   source: string;
   observedAt: string;
 };
 
-// Other service lines, §2.3 order after Internet: TV (YouTube TV partnership),
-// then Mobile, then Home Phone. WOW! has NO owned TV product — TV is framed as
-// the YouTube TV partnership per §2.3, with the Google trademark line (§7.5).
+// Other service lines, §2.3 order after Internet: TV, then Mobile, then Home
+// Phone. WOW! offers TWO real TV options, both built below:
+//   1. WOW! TV — its OWN digital cable product (via WOW! tv+ / Ultra TV box).
+//   2. YouTube TV — a streaming partnership.
+//
+// TV CONTRADICTION RESOLVED (re-verified 2026-08-19, direct from wowway.com):
+// the §6-matrix note that WOW! TV was decommissioned ~June 30 2026 is OUTDATED.
+// WOW! TV cable is still ACTIVE — wowway.com maintains per-market channel lineups,
+// references "Digital Cable customers", a live WOW! tv+ product page, tv+ boxes at
+// $10/box/mo, Cloud DVR (50/100/200-hr), OnDemand and premium channels. New-customer
+// marketing steers to YouTube TV, but WOW! TV cable is a real offering. Package
+// PRICES and channel counts are address-gated (offers.wowway.com per market) and
+// not publicly published, so this card uses the §2.3 null-price fallback — no
+// invented numbers.
 export const products: Product[] = [
+  {
+    id: "wow-tv",
+    eyebrow: "TV — WOW! cable",
+    title: "WOW! TV, delivered on the WOW! tv+ box",
+    body: "WOW!'s own digital cable TV, on the WOW! tv+ (Ultra TV) box. Choose a Small, Medium or Large channel package, add Cloud DVR (50, 100 or 200 hours), and watch OnDemand plus premium channels like HBO, Starz and Cinemax. Available where WOW! cable serves your address.",
+    bullets: ["Small / Medium / Large channel packages", "WOW! tv+ box: $10/box per month", "Cloud DVR — 50, 100 or 200 hours"],
+    priceNote: "Call for today's package pricing at your address",
+    image: "bundle-tv",
+    accent: "blue",
+    source: SRC.tv,
+    observedAt: OBSERVED_AT,
+  },
   {
     id: "tv",
     eyebrow: "TV — YouTube TV partnership",
-    title: "Live TV through WOW!'s YouTube TV offer",
-    body: "WOW! doesn't sell its own TV service — it partners with YouTube TV. Bundle YouTube TV with WOW! Internet and get $10/mo off YouTube TV for 12 months. NFL Sunday Ticket is available (now $240 for the season with the YouTube TV Base Plan).",
+    title: "Or stream live TV with YouTube TV",
+    body: "Prefer streaming? WOW! also partners with YouTube TV. Bundle it with WOW! Internet and get $10/mo off YouTube TV for 12 months. NFL Sunday Ticket is available (now $240 for the season with the YouTube TV Base Plan).",
     bullets: ["$10/mo off YouTube TV for 12 months when bundled", "100+ live channels on any screen", "NFL Sunday Ticket available"],
     priceNote: "Bundle discount with WOW! Internet",
     trademark: "YouTube TV is a trademark of Google LLC.",
+    image: "bundle-tv",
     accent: "orange",
     source: SRC.home,
     observedAt: OBSERVED_AT,
@@ -213,13 +241,26 @@ export const products: Product[] = [
   },
   {
     id: "phone",
-    eyebrow: "Home Phone",
+    eyebrow: "Home Phone — base",
     title: "WOW! Home Phone",
-    body: "A dependable landline with the calling features you actually use: unlimited local calling plus 100 minutes of long distance, caller ID, call forwarding, three-way calling and robocall blocking at no extra cost. Need unlimited long distance? Ask about WOW! Home Phone Plus.",
+    body: "A dependable landline with the calling features you actually use: unlimited local calling plus 100 minutes of long distance ($0.05/min after), caller ID, call forwarding, three-way calling and robocall blocking at no extra cost.",
     bullets: ["Unlimited local calling + 100 min long distance", "Caller ID, call forwarding & 3-way calling", "Robocall blocking included"],
     priceNote: "From $9/mo with WOW! Internet",
+    image: "bundle-phone",
     accent: "cyan",
-    source: SRC.phone,
+    source: SRC.phoneHome,
+    observedAt: OBSERVED_AT,
+  },
+  {
+    id: "phone-plus",
+    eyebrow: "Home Phone — Plus",
+    title: "WOW! Home Phone Plus",
+    body: "Everything in WOW! Home Phone, but with unlimited long-distance calling instead of a 100-minute allotment — ideal if you call out of state often. WOW! doesn't publish this tier's price online, so an agent will confirm it for your address when you call.",
+    bullets: ["Unlimited long-distance calling", "All base Home Phone features", "Robocall blocking & voicemail included"],
+    priceNote: "Ask when you call for pricing",
+    image: "bundle-phone",
+    accent: "cyan",
+    source: SRC.phoneHome,
     observedAt: OBSERVED_AT,
   },
 ];

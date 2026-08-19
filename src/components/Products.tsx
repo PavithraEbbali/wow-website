@@ -4,7 +4,7 @@ import { Icon, type IconName } from "@/lib/icons";
 import { products } from "@/lib/content";
 import { siteConfig } from "@/lib/site.config";
 
-const ICONS: Record<string, IconName> = { tv: "tv", mobile: "mobile", phone: "phone" };
+const ICONS: Record<string, IconName> = { "wow-tv": "tv", tv: "tv", mobile: "mobile", phone: "phone", "phone-plus": "phone" };
 
 export function Products() {
   return (
@@ -35,7 +35,7 @@ export function Products() {
                 <div className="bc-media">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={`/img/bundle-${p.id}.jpeg`}
+                    src={`/img/${p.image ?? `bundle-${p.id}`}.jpeg`}
                     alt={p.title}
                     width={2752}
                     height={1536}

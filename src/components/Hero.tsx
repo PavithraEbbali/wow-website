@@ -48,7 +48,7 @@ export function Hero() {
             </p>
 
             <p className="hc-plan">
-              WOW! Internet · {heroPlan.download} {heroPlan.unit}
+              WOW! Internet · {heroPlan.download} {heroPlan.unit} · entry plan
             </p>
             <Lockup plan={heroPlan} className="lockup--dark" />
 
