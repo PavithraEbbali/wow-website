@@ -39,7 +39,7 @@ export function Hero() {
             </span>
 
             <h1 className="hc-title">
-              Fast internet that <span className="hc-grad">costs less</span>
+              Fast, reliable internet for <span className="hc-grad">your home</span>
             </h1>
 
             <p className="hc-sub">
