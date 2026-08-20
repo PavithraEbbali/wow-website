@@ -1,14 +1,35 @@
 import { Reveal } from "./ui/Reveal";
 import { SplitHeading } from "./ui/SplitHeading";
 import { Icon, type IconName } from "@/lib/icons";
-import { products } from "@/lib/content";
+import { products, type Product } from "@/lib/content";
 import { siteConfig } from "@/lib/site.config";
 
-const ICONS: Record<string, IconName> = { "wow-tv": "tv", tv: "tv", mobile: "mobile", phone: "phone", "phone-plus": "phone" };
+const ICONS: Record<string, IconName> = { "wow-tv": "tv", tv: "tv", phone: "phone", "phone-plus": "phone" };
 
-export function Products() {
+type Segment = { text: string; flow?: boolean };
+
+/**
+ * ProductLine — a standalone per-line plan section (§2.3): one card per product
+ * on the given service line, its own H2, and a "Call now" CTA. Used for the TV
+ * section and the Home Phone section. (Internet and Mobile have their own
+ * dedicated components.)
+ */
+export function ProductLine({
+  line,
+  id,
+  kicker,
+  segments,
+  intro,
+}: {
+  line: Product["line"];
+  id: string;
+  kicker: string;
+  segments: Segment[];
+  intro: string;
+}) {
+  const cards = products.filter((p) => p.line === line);
   return (
-    <section className="section bundles-lux" id="bundles">
+    <section className="section bundles-lux" id={id}>
       <span className="bx-hair top" aria-hidden="true" />
       <span className="bx-rules" aria-hidden="true" />
       <span className="bx-hair bot" aria-hidden="true" />
@@ -16,19 +37,16 @@ export function Products() {
       <div className="container">
         <div className="section-head bx-head">
           <Reveal>
-            <span className="kicker">More ways to connect</span>
+            <span className="kicker">{kicker}</span>
           </Reveal>
-          <SplitHeading segments={[{ text: "Add TV, mobile" }, { text: "and home phone", flow: true }]} />
+          <SplitHeading segments={segments} />
           <Reveal delay={0.1}>
-            <p>
-              Put everything on one bill and save when you combine services. Mix and match what your
-              household actually uses.
-            </p>
+            <p>{intro}</p>
           </Reveal>
         </div>
 
         <div className="bcards">
-          {products.map((p, i) => (
+          {cards.map((p, i) => (
             <Reveal key={p.id} delay={0.05 * i}>
               <article className="bcard" data-accent={p.accent}>
                 <span className="bc-edge" aria-hidden="true" />

@@ -1612,6 +1612,56 @@ ul { list-style: none; }
 .bc-price { margin: 0.55rem 0 0; font-family: var(--font-display); font-weight: 800; font-size: 0.9rem; color: var(--a); }
 .bc-tm { grid-column: 1 / -1; margin: 0.5rem 0 0; font-size: 0.68rem; color: #8fa3b6; }
 .bcards-cta { display: flex; justify-content: center; margin-top: 1.8rem; }
+
+/* ---- WOW! Mobile — 4 static plan cards (§2.3) ---------------------------- */
+.mobile-lux { background: var(--bg-soft); }
+.mob-grid { display: grid; grid-template-columns: 1fr; gap: 1.1rem; margin-top: 2.6rem; }
+@media (min-width: 560px) { .mob-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 960px) { .mob-grid { grid-template-columns: repeat(4, 1fr); } }
+/* Reveal wrappers become flex so each card stretches to equal row height. */
+.mob-grid > * { display: flex; }
+.mob-plan {
+  width: 100%;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  color: #fff; padding: 1.6rem 1.3rem;
+  background: linear-gradient(158deg, #0b1f38 0%, #071426 62%, #050f1d 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--r-lg);
+  box-shadow: 0 30px 60px -35px rgba(0, 10, 26, 0.6);
+  transition: transform 0.3s var(--ease), border-color 0.3s ease;
+}
+.mob-plan:hover { transform: translateY(-4px); border-color: rgba(16, 172, 227, 0.5); }
+.mob-plan[data-entry] { border-color: rgba(16, 172, 227, 0.4); }
+.mob-plan-ic {
+  display: grid; place-items: center; width: 44px; height: 44px; border-radius: 13px;
+  color: #04182d; background: linear-gradient(135deg, var(--cyan), #7fe0ff);
+  box-shadow: 0 12px 24px -12px rgba(16, 172, 227, 0.7); margin-bottom: 0.9rem;
+}
+.mob-plan h3 { font-family: var(--font-display); font-weight: 800; font-size: 1.14rem; color: #fff; }
+.mob-plan-best { margin-top: 0.4rem; font-size: 0.85rem; color: #b8cbdb; line-height: 1.45; min-height: 2.5em; max-width: 22ch; }
+.mob-plan-price { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 78px; margin: 0.8rem 0 1rem; }
+.mob-plan-amt { display: flex; align-items: baseline; gap: 0.04em; font-family: var(--font-display); font-weight: 800; color: #fff; line-height: 1; font-size: 2.7rem; letter-spacing: -0.02em; }
+.mob-plan-amt i { font-style: normal; font-size: 1.2rem; color: #cfe2ef; }
+.mob-plan-amt em { font-style: normal; font-size: 0.9rem; color: #9fb9cf; font-weight: 500; margin-left: 0.2rem; }
+.mob-plan-sub { margin-top: 0.35rem; font-size: 0.78rem; color: #9fb9cf; font-weight: 600; }
+.mob-plan-callrate { font-family: var(--font-display); font-weight: 700; font-size: 1rem; line-height: 1.4; color: #cfe0ee; max-width: 20ch; }
+.mob-plan-feats { display: flex; flex-direction: column; gap: 0.42rem; list-style: none; margin: 0 0 1.2rem; padding: 0; }
+.mob-plan-feats li { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.82rem; font-weight: 600; color: #cfe0ee; }
+.mob-plan-feats li svg { color: #46d08a; flex-shrink: 0; }
+.mob-plan-cta {
+  width: 100%; margin-top: auto; justify-content: center; gap: 0.45rem;
+  background: linear-gradient(135deg, #ff7a3c, #f26124); color: #fff;
+  border-radius: var(--pill); box-shadow: 0 12px 26px -12px rgba(242, 97, 36, 0.75);
+}
+.mob-plan-cta:hover { filter: brightness(1.06); }
+
+/* Shared feature row + honest note (below the grid, on the light section). */
+.mob-feats {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 0.7rem 1.6rem;
+  list-style: none; margin: 2rem 0 0; padding: 0;
+}
+.mob-feats li { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 600; font-size: 0.92rem; color: var(--navy); }
+.mob-feats li svg { color: #0a8a4e; flex-shrink: 0; }
+.mob-note { text-align: center; max-width: 62ch; margin: 1.1rem auto 0; font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
 /* On wide screens: photo panel left, copy centre, chips right. */
 @media (min-width: 760px) {
   .bcard { grid-template-columns: 260px 1fr auto; align-items: stretch; padding: 1.1rem; }

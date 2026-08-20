@@ -173,6 +173,8 @@ export const features: Feature[] = [
 
 export type Product = {
   id: string;
+  /** Service line — drives which standalone section (§2.3) the card renders in. */
+  line: "tv" | "phone";
   eyebrow: string;
   title: string;
   body: string;
@@ -202,9 +204,13 @@ export type Product = {
 // PRICES and channel counts are address-gated (offers.wowway.com per market) and
 // not publicly published, so this card uses the §2.3 null-price fallback — no
 // invented numbers.
+// Rendered as standalone per-line sections (§2.3): a TV section (wow-tv + tv)
+// and a Home Phone section (phone + phone-plus). Mobile is its own section too,
+// built from the `mobile` object below (not this array).
 export const products: Product[] = [
   {
     id: "wow-tv",
+    line: "tv",
     eyebrow: "TV — WOW! cable",
     title: "WOW! TV, delivered on the WOW! tv+ box",
     body: "WOW!'s own digital cable TV, on the WOW! tv+ (Ultra TV) box. Choose a Small, Medium or Large channel package, add Cloud DVR (50, 100 or 200 hours), and watch OnDemand plus premium channels like HBO, Starz and Cinemax. Available where WOW! cable serves your address.",
@@ -217,6 +223,7 @@ export const products: Product[] = [
   },
   {
     id: "tv",
+    line: "tv",
     eyebrow: "TV — YouTube TV partnership",
     title: "Or stream live TV with YouTube TV",
     body: "Prefer streaming? WOW! also partners with YouTube TV. Bundle it with WOW! Internet and get $10/mo off YouTube TV for 12 months. NFL Sunday Ticket is available (now $240 for the season with the YouTube TV Base Plan).",
@@ -229,18 +236,8 @@ export const products: Product[] = [
     observedAt: OBSERVED_AT,
   },
   {
-    id: "mobile",
-    eyebrow: "WOW! Mobile",
-    title: "Wireless on a nationwide 5G network",
-    body: "WOW! Mobile offers 1GB, 3GB, 8GB and Unlimited data plans on a nationwide 5G network, with no contract. Save up to $10/mo on your mobile bill when you bundle with WOW! Internet.",
-    bullets: ["1GB, 3GB, 8GB & Unlimited data plans", "From $15/mo per line", "Save up to $10/mo when bundled with Internet"],
-    priceNote: "From $15/mo per line · no contract",
-    accent: "gold",
-    source: SRC.mobile,
-    observedAt: OBSERVED_AT,
-  },
-  {
     id: "phone",
+    line: "phone",
     eyebrow: "Home Phone — base",
     title: "WOW! Home Phone",
     body: "A dependable landline with the calling features you actually use: unlimited local calling plus 100 minutes of long distance ($0.05/min after), caller ID, call forwarding, three-way calling and robocall blocking at no extra cost.",
@@ -253,6 +250,7 @@ export const products: Product[] = [
   },
   {
     id: "phone-plus",
+    line: "phone",
     eyebrow: "Home Phone — Plus",
     title: "WOW! Home Phone Plus",
     body: "Everything in WOW! Home Phone, but with unlimited long-distance calling instead of a 100-minute allotment — ideal if you call out of state often. WOW! doesn't publish this tier's price online, so an agent will confirm it for your address when you call.",
@@ -264,6 +262,41 @@ export const products: Product[] = [
     observedAt: OBSERVED_AT,
   },
 ];
+
+/* ---- WOW! Mobile (§2.3 — its own standalone section) --------------------- */
+// Confirmed on wowway.com/phone/mobile: 1GB/3GB/8GB/Unlimited tiers, starting at
+// $15/mo per line, no contract, $10/mo bundle discount, unlimited talk & text,
+// 24/7 care, powered by Reach Mobile on the nation's largest 5G network. Per-tier
+// pricing beyond the $15 entry is NOT published there (it routes to
+// wow.reachmobile.com), so those use the §2.3 null-price fallback — no invented
+// per-tier numbers.
+// Per-tier prices: only the 1 GB entry ($15/mo) is publicly confirmed on
+// wowway.com. The 3 GB / 8 GB / Unlimited prices sit behind Reach Mobile's
+// JS-rendered portal (wow.reachmobile.com — navigation-denied / empty to
+// fetchers, address-gated), so they use the §3 null-price fallback. The
+// third-party 3GB=$25 / 8GB=$35 figures were NOT confirmed there and are NOT used.
+export type MobileTier = { label: string; price: string; bestFor: string }; // price "" = gated
+export const mobile = {
+  tiers: [
+    { label: "1 GB", price: "15", bestFor: "Light use — texts, calls and the occasional browse" },
+    { label: "3 GB", price: "", bestFor: "Everyday use for a single line" },
+    { label: "8 GB", price: "", bestFor: "Streaming and heavier data days" },
+    { label: "Unlimited", price: "", bestFor: "No data worries, ever" },
+  ] as MobileTier[],
+  network: "Powered by Reach Mobile on the nation's largest 5G network",
+  // Warmer, honest null-price line for tiers whose price WOW! doesn't publish.
+  nullLine: "Get your exact price when you call",
+  // These two sit on every card (universally relevant); the rest stay shared below.
+  included: ["Unlimited talk & text", "No contract"],
+  features: [
+    "Save up to $10/mo when bundled with WOW! Internet",
+    "24/7 customer care",
+  ],
+  note: "Only the 1 GB plan's $15/mo entry price is published online. A WOW! agent confirms the price of the 3 GB, 8 GB and Unlimited plans for you when you call.",
+  source: SRC.mobile,
+  perTierSource: "https://wow.reachmobile.com",
+  observedAt: OBSERVED_AT,
+};
 
 export const steps = [
   {

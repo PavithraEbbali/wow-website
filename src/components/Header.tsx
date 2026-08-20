@@ -8,10 +8,10 @@ import { Icon } from "@/lib/icons";
 import { siteConfig } from "@/lib/site.config";
 
 const NAV = [
-  { href: "#plans", label: "Plans & Pricing" },
-  { href: "#bundles", label: "Bundles" },
-  { href: "#why", label: "Why WOW!" },
-  { href: "#coverage", label: "Coverage" },
+  { href: "#plans", label: "Internet" },
+  { href: "#tv", label: "TV" },
+  { href: "#mobile", label: "Mobile" },
+  { href: "#phone", label: "Home Phone" },
   { href: "#faq", label: "FAQ" },
 ];
 

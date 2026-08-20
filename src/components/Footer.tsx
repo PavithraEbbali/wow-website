@@ -4,9 +4,11 @@ import { siteConfig } from "@/lib/site.config";
 import { legalNav } from "@/lib/legalDocs";
 
 const EXPLORE = [
-  { href: "/#plans", label: "Plans & Pricing" },
+  { href: "/#plans", label: "Internet" },
+  { href: "/#tv", label: "TV" },
+  { href: "/#mobile", label: "Mobile" },
+  { href: "/#phone", label: "Home Phone" },
   { href: "/#why", label: "Why WOW!" },
-  { href: "/#bundles", label: "Bundles" },
   { href: "/#coverage", label: "Coverage" },
   { href: "/#faq", label: "FAQ" },
 ];
