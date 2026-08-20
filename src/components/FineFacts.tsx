@@ -18,8 +18,8 @@ export function FineFacts() {
           <SplitHeading segments={[{ text: "Plan facts," }, { text: "no surprises", flow: true }]} />
           <Reveal delay={0.1}>
             <p>
-              The numbers that matter, side by side, the way WOW!&apos;s official Broadband Facts
-              labels lay them out. Taxes, fees and surcharges are extra, and your exact figures are
+              Here&apos;s the full picture, laid out the same way WOW!&apos;s own Broadband Facts
+              labels do. Taxes, fees and surcharges are extra, and your exact figures are
               confirmed by phone for your address.
             </p>
           </Reveal>

@@ -93,7 +93,7 @@ export const plans: Plan[] = [
     unit: "Gig",
     price: "105",
     period: "/mo",
-    qualifier: "Fixed monthly rate · AutoPay discount available",
+    qualifier: "This is what you'll pay · AutoPay discount available",
     stepUp: "plus taxes, fees & surcharges",
     accent: "blue",
     bestFor: "Busy homes with lots of devices online at once",
@@ -296,10 +296,10 @@ export const products: Product[] = [
 export type MobileTier = { label: string; price: string; bestFor: string }; // price "" = gated
 export const mobile = {
   tiers: [
-    { label: "1 GB", price: "15", bestFor: "Light use — texts, calls and the occasional browse" },
-    { label: "3 GB", price: "25", bestFor: "Everyday use for a single line" },
-    { label: "8 GB", price: "35", bestFor: "Streaming and heavier data days" },
-    { label: "Unlimited", price: "45", bestFor: "No data worries, ever" },
+    { label: "1 GB", price: "15", bestFor: "Just enough for texts, calls and the occasional browse" },
+    { label: "3 GB", price: "25", bestFor: "Plenty for one phone, day to day" },
+    { label: "8 GB", price: "35", bestFor: "For the days you're streaming a lot" },
+    { label: "Unlimited", price: "45", bestFor: "Never think about data again" },
   ] as MobileTier[],
   network: "Powered by Reach Mobile on the nation's largest 5G network",
   // Human null-price line, kept for any future tier whose price isn't published.
