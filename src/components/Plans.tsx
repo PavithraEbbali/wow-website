@@ -20,8 +20,8 @@ export function Plans() {
           <SplitHeading segments={[{ text: "Simple plans," }, { text: "prices up front", flow: true }]} />
           <Reveal delay={0.1}>
             <p>
-              Find the WOW! internet speed that fits your household. Every plan is month-to-month, and
-              you can add TV, mobile or Whole-Home WiFi whenever you want.
+              Find the WOW! internet speed that fits your household. Every plan is month-to-month with
+              unlimited data, and you can add TV, mobile or Whole-Home WiFi whenever you want.
             </p>
           </Reveal>
         </div>
@@ -39,7 +39,7 @@ export function Plans() {
                   <b>{p.download}</b>
                   <i>{p.unit}</i>
                 </div>
-                <Lockup plan={p} className="pc-lockup" />
+                <Lockup data={p} className="pc-lockup" />
                 <p className="pc-best">
                   <b>Best for:</b> {p.bestFor}
                 </p>

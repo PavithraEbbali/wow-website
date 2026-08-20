@@ -4,7 +4,7 @@ import { Icon, type IconName } from "@/lib/icons";
 import { siteConfig } from "@/lib/site.config";
 
 const POINTS: { icon: IconName; text: string }[] = [
-  { icon: "contract", text: "No contracts, cancel anytime" },
+  { icon: "contract", text: "No contracts, no data caps" },
   { icon: "bolt", text: "Self-install kit available" },
   { icon: "chat", text: "Trained sales agents on the order line" },
 ];

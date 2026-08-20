@@ -52,7 +52,7 @@ export const offersLd = {
   name: "WOW! Internet Plans",
   brand: { "@type": "Brand", name: siteConfig.brandName },
   description:
-    "High-speed WOW! internet plans with no contracts and Whole-Home WiFi, ordered through an authorized dealer.",
+    "High-speed WOW! internet plans with no contracts, unlimited data and Whole-Home WiFi, ordered through an authorized dealer.",
   // Null/gated-price plans omit the Offer entirely (§8.3 — an Offer without a
   // price is schema-invalid).
   offers: plans

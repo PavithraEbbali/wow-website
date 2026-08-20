@@ -22,7 +22,9 @@ import { Lockup } from "./ui/Lockup";
  *
  * Static — no continuous glow/spin/pulse (the card uses no looping animation).
  */
-const HERO_CHIPS = ["No annual contract", "Self-install kit included", "Up to 5 Gig fiber", "Price Lock available"];
+// "Unlimited data" restored — it's a live, carrier-published claim on WOW!'s
+// homepage ("Unlimited Data / No data caps," verified 2026-08-19).
+const HERO_CHIPS = ["No annual contract", "Unlimited data", "Self-install kit included", "Up to 5 Gig fiber", "Price Lock available"];
 
 // Lead internet offer, straight from content.ts (Internet 300 Mbps at $25/mo).
 const heroPlan = plans[0];
@@ -50,7 +52,7 @@ export function Hero() {
             <p className="hc-plan">
               WOW! Internet · {heroPlan.download} {heroPlan.unit} · entry plan
             </p>
-            <Lockup plan={heroPlan} className="lockup--dark" />
+            <Lockup data={heroPlan} className="lockup--dark" />
 
             <a className="hc-cta" href={siteConfig.phoneHref} data-call-cta>
               <Icon name="phone" size={18} /> Call {siteConfig.phoneDisplay}

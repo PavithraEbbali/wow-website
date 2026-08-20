@@ -28,8 +28,13 @@ const SRC = {
   phone: "https://www.wowway.com/phone",
   phoneHome: "https://www.wowway.com/phone/home",
   tv: "https://www.wowway.com/wow/tv/channel-lineups",
+  wholeHomeWifi: "https://www.wowway.com/internet/whole-home-wifi",
   home: "https://www.wowway.com/",
 } as const;
+
+// "Unlimited data / No data caps" is a live, carrier-published claim on WOW!'s
+// homepage (SRC.home, verified 2026-08-19) — restored to the plan cards, hero
+// chips and trust strip after an earlier precautionary removal.
 
 export type Plan = {
   id: string;
@@ -74,6 +79,7 @@ export const plans: Plan[] = [
     perks: [
       "Handles a few devices at once",
       "Smooth HD streaming and video calls",
+      "Unlimited data — no data caps",
       "No annual contract, so you can leave anytime",
     ],
     source: SRC.internet,
@@ -94,7 +100,7 @@ export const plans: Plan[] = [
     perks: [
       "1,200 Mbps down · 48 Mbps up",
       "22 ms typical latency",
-      "Unlimited data",
+      "Unlimited data — no data caps",
     ],
     // Source: WOW!'s FCC Broadband Facts label — Unique Plan Identifier
     // F0018579375MP24DATA12105AA. Internet 1.2 Gig, 1200 Mbps down / 48 up,
@@ -119,9 +125,12 @@ export const plans: Plan[] = [
     bestFor: "Gamers, creators and homes that want uploads to match downloads",
     perks: [
       "Uploads as fast as downloads",
-      "Free professional installation (limited time)",
+      "Unlimited data — no data caps",
+      "Free professional installation — a $100 value (limited time)",
       "Speeds up to 5 Gig where fiber reaches you",
     ],
+    // "Free Professional Installation ($100 value)" is stated on WOW!'s fiber
+    // page (SRC.fiberDeals, verified 2026-08-19).
     source: SRC.fiberDeals,
     observedAt: OBSERVED_AT,
   },
@@ -135,9 +144,9 @@ export type Feature = {
   body: string;
 };
 
-// "Why WOW!" — only claims WOW! actually makes on its own pages. No data-cap
-// claim (WOW! advertises "Unlimited Data" but we keep the value props the
-// operator approved: no contracts, self-install, whole-home WiFi, price lock).
+// "Why WOW!" — only claims WOW! actually makes on its own pages: no contracts,
+// self-install, price lock, whole-home WiFi, money-back, and unlimited data
+// ("Unlimited Data / No data caps," stated on WOW!'s homepage, SRC.home).
 export const features: Feature[] = [
   {
     icon: "contract",
@@ -166,8 +175,8 @@ export const features: Feature[] = [
   },
   {
     icon: "infinity",
-    title: "Fiber where you can get it",
-    body: "Where WOW! fiber reaches your home, uploads run as fast as downloads, with speeds up to 5 Gig.",
+    title: "Unlimited data",
+    body: "Every WOW! internet plan comes with unlimited data and no data caps — stream, game and work from home as much as you want.",
   },
 ];
 
@@ -181,6 +190,10 @@ export type Product = {
   bullets: string[];
   /** Small starting-price note under the card, when confirmed. */
   priceNote?: string;
+  /** Small label shown above the §3 lockup (e.g. "Bundle savings"). */
+  priceLabel?: string;
+  /** §3 lockup data — real price or null-price fallback. */
+  lockup?: { price?: string; period?: string; qualifier?: string; nullNote?: string; priceFrom?: boolean };
   /** Partner trademark attribution line (§7.5), when applicable. */
   trademark?: string;
   /** Image basename in /img (defaults to bundle-<id>); set to reuse an image. */
@@ -215,7 +228,8 @@ export const products: Product[] = [
     title: "WOW! TV, delivered on the WOW! tv+ box",
     body: "WOW!'s own digital cable TV, on the WOW! tv+ (Ultra TV) box. Choose a Small, Medium or Large channel package, add Cloud DVR (50, 100 or 200 hours), and watch OnDemand plus premium channels like HBO, Starz and Cinemax. Available where WOW! cable serves your address.",
     bullets: ["Small / Medium / Large channel packages", "WOW! tv+ box: $10/box per month", "Cloud DVR — 50, 100 or 200 hours"],
-    priceNote: "Call for today's package pricing at your address",
+    priceLabel: "Package pricing",
+    lockup: { nullNote: "Call for today's package pricing at your address" },
     image: "bundle-tv",
     accent: "blue",
     source: SRC.tv,
@@ -226,9 +240,10 @@ export const products: Product[] = [
     line: "tv",
     eyebrow: "TV — YouTube TV partnership",
     title: "Or stream live TV with YouTube TV",
-    body: "Prefer streaming? WOW! also partners with YouTube TV. Bundle it with WOW! Internet and get $10/mo off YouTube TV for 12 months. NFL Sunday Ticket is available (now $240 for the season with the YouTube TV Base Plan).",
-    bullets: ["$10/mo off YouTube TV for 12 months when bundled", "100+ live channels on any screen", "NFL Sunday Ticket available"],
-    priceNote: "Bundle discount with WOW! Internet",
+    body: "Prefer streaming? WOW! also partners with YouTube TV. Bundle it with WOW! Internet and get $10/mo off YouTube TV for 12 months. NFL Sunday Ticket is available (now $240 for the season with the YouTube TV Base Plan, through 10/28/26).",
+    bullets: ["100+ live channels on any screen", "NFL Sunday Ticket — $240/season through 10/28/26", "No box — stream on any device"],
+    priceLabel: "Bundle savings",
+    lockup: { price: "10", period: "/mo", qualifier: "off YouTube TV for 12 months when you bundle" },
     trademark: "YouTube TV is a trademark of Google LLC.",
     image: "bundle-tv",
     accent: "orange",
@@ -242,7 +257,8 @@ export const products: Product[] = [
     title: "WOW! Home Phone",
     body: "A dependable landline with the calling features you actually use: unlimited local calling plus 100 minutes of long distance ($0.05/min after), caller ID, call forwarding, three-way calling and robocall blocking at no extra cost.",
     bullets: ["Unlimited local calling + 100 min long distance", "Caller ID, call forwarding & 3-way calling", "Robocall blocking included"],
-    priceNote: "From $9/mo with WOW! Internet",
+    priceLabel: "Bundled price",
+    lockup: { price: "9", period: "/mo", qualifier: "with WOW! Internet · plus taxes & fees" },
     image: "bundle-phone",
     accent: "cyan",
     source: SRC.phoneHome,
@@ -255,7 +271,8 @@ export const products: Product[] = [
     title: "WOW! Home Phone Plus",
     body: "Everything in WOW! Home Phone, but with unlimited long-distance calling instead of a 100-minute allotment — ideal if you call out of state often. WOW! doesn't publish this tier's price online, so an agent will confirm it for your address when you call.",
     bullets: ["Unlimited long-distance calling", "All base Home Phone features", "Robocall blocking & voicemail included"],
-    priceNote: "Ask when you call for pricing",
+    priceLabel: "Pricing",
+    lockup: { nullNote: "Get your exact price when you call" },
     image: "bundle-phone",
     accent: "cyan",
     source: SRC.phoneHome,
@@ -270,29 +287,30 @@ export const products: Product[] = [
 // pricing beyond the $15 entry is NOT published there (it routes to
 // wow.reachmobile.com), so those use the §2.3 null-price fallback — no invented
 // per-tier numbers.
-// Per-tier prices: only the 1 GB entry ($15/mo) is publicly confirmed on
-// wowway.com. The 3 GB / 8 GB / Unlimited prices sit behind Reach Mobile's
-// JS-rendered portal (wow.reachmobile.com — navigation-denied / empty to
-// fetchers, address-gated), so they use the §3 null-price fallback. The
-// third-party 3GB=$25 / 8GB=$35 figures were NOT confirmed there and are NOT used.
+// Per-tier prices confirmed first-party on wow.reachmobile.com (the portal
+// wowway.com/phone/mobile links to as "View Mobile Plans") on 2026-08-19:
+// Basic 1GB $15, Moderate 3GB $25, People's Choice 8GB $35, All-in Unlimited $45,
+// each "per line per month" and labeled "Pricing shown includes discount
+// available to eligible and verified WOW! residential internet customers" — i.e.
+// the bundled (with-WOW!-Internet) rate; standalone lines are $10/mo more.
 export type MobileTier = { label: string; price: string; bestFor: string }; // price "" = gated
 export const mobile = {
   tiers: [
     { label: "1 GB", price: "15", bestFor: "Light use — texts, calls and the occasional browse" },
-    { label: "3 GB", price: "", bestFor: "Everyday use for a single line" },
-    { label: "8 GB", price: "", bestFor: "Streaming and heavier data days" },
-    { label: "Unlimited", price: "", bestFor: "No data worries, ever" },
+    { label: "3 GB", price: "25", bestFor: "Everyday use for a single line" },
+    { label: "8 GB", price: "35", bestFor: "Streaming and heavier data days" },
+    { label: "Unlimited", price: "45", bestFor: "No data worries, ever" },
   ] as MobileTier[],
   network: "Powered by Reach Mobile on the nation's largest 5G network",
-  // Warmer, honest null-price line for tiers whose price WOW! doesn't publish.
+  // Human null-price line, kept for any future tier whose price isn't published.
   nullLine: "Get your exact price when you call",
   // These two sit on every card (universally relevant); the rest stay shared below.
   included: ["Unlimited talk & text", "No contract"],
   features: [
-    "Save up to $10/mo when bundled with WOW! Internet",
+    "$10/mo per-line discount for WOW! Internet customers",
     "24/7 customer care",
   ],
-  note: "Only the 1 GB plan's $15/mo entry price is published online. A WOW! agent confirms the price of the 3 GB, 8 GB and Unlimited plans for you when you call.",
+  note: "Prices shown are per line and already include the $10/mo discount for WOW! Internet customers; standalone lines are $10/mo more. Confirmed on wow.reachmobile.com.",
   source: SRC.mobile,
   perTierSource: "https://wow.reachmobile.com",
   observedAt: OBSERVED_AT,
@@ -348,9 +366,10 @@ export const faqs: Faq[] = [
     a: "WOW! ships a self-install kit for most internet plans — it plugs in and sets up through a guided app, with no technician visit needed. If you'd rather have a professional handle it, professional installation is available for a fee — on the Internet 1.2 Gig plan, WOW!'s Broadband Facts label lists $99.00 for a professional install and $10.00 for self-install activation — and WOW! is currently offering free professional installation on new fiber orders (limited time). Your install is scheduled with WOW! on the same call when you order.",
   },
   {
-    // Archetype 5 — Contract / data (no data-cap claim; WOW! states no contracts).
-    q: "Is there an annual contract?",
-    a: "No. WOW! internet plans are month-to-month with no annual contract and no early-termination fee, so you can change or cancel whenever you need to. For the exact data terms on a specific plan, an agent can confirm what applies at your address when you call.",
+    // Archetype 5 — Contract / data. WOW! states both "no contracts" and
+    // "Unlimited Data / No data caps" on its own pages (SRC.home, SRC.internet).
+    q: "Is there an annual contract or a data cap?",
+    a: "No on both. WOW! internet plans are month-to-month with no annual contract and no early-termination fee, and every plan includes unlimited data with no data caps — so you can stream, game and work from home without worrying about overage. An agent can confirm the terms for your address when you call.",
   },
   {
     // Archetype 6 — Equipment.
@@ -390,7 +409,10 @@ export const addOns: AddOn[] = [
   {
     icon: "mesh",
     name: "Whole-Home WiFi",
-    body: "A managed eero-style mesh that blankets every room in a strong, steady signal. Add more coverage for larger homes.",
+    // $9.99/mo (two eero devices), $5.99/mo per additional eero, and requires a
+    // WOW! modem ($14/mo) or your own compatible modem — stated on SRC.wholeHomeWifi
+    // (verified 2026-08-19).
+    body: "A managed eero-style mesh (two eero devices) that blankets every room in a strong, steady signal. Extra eero devices are $5.99/mo each, and Whole-Home WiFi needs a WOW! modem ($14/mo) or your own compatible modem.",
     price: "$9.99/mo",
   },
   {
@@ -414,7 +436,7 @@ export const addOns: AddOn[] = [
   {
     icon: "shield",
     name: "Free professional install (fiber)",
-    body: "New fiber orders currently include free professional installation. Limited-time offer, subject to change.",
+    body: "New fiber orders currently include free professional installation — a $100 value. Limited-time offer, subject to change.",
     price: "Free on fiber",
   },
   {
