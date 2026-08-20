@@ -1672,66 +1672,92 @@ ul { list-style: none; }
 
 /* ===== Television — 2-up, price-forward dark cards ======================== */
 .tv-sec { background: var(--bg-soft); }
-.tv-grid { display: grid; grid-template-columns: 1fr; gap: 1.4rem; margin-top: 2.6rem; }
-@media (min-width: 820px) { .tv-grid { grid-template-columns: 1fr 1fr; } }
+.tv-grid { display: grid; grid-template-columns: 1fr; gap: 1.6rem; margin-top: 2.6rem; }
+@media (min-width: 820px) { .tv-grid { grid-template-columns: 1fr 1fr; gap: 2rem; } }
 .tv-grid > * { display: flex; }
 .tv-card {
   --accent: #10ACE3; width: 100%; display: flex; flex-direction: column;
   background: linear-gradient(158deg, #0b1f38 0%, #071426 62%, #050f1d 100%);
   border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--r-lg);
-  padding: clamp(1.5rem, 3vw, 2.2rem); color: #fff;
+  overflow: hidden; color: #fff;
   box-shadow: 0 40px 80px -40px rgba(0, 10, 26, 0.6);
   transition: transform 0.3s var(--ease), border-color 0.3s ease;
 }
 .tv-card[data-accent="blue"] { --accent: #0072A8; }
 .tv-card[data-accent="orange"] { --accent: #F26124; }
 .tv-card:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent) 55%, transparent); }
+
+/* Photo header — fades into the dark card body; supports the price, doesn't crowd it. */
+.tv-media { position: relative; height: clamp(170px, 24vw, 210px); overflow: hidden; }
+.tv-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tv-media::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(7, 20, 38, 0) 45%, rgba(7, 20, 38, 0.55) 78%, #071426 100%);
+}
+.tv-body-wrap { display: flex; flex-direction: column; flex: 1; padding: clamp(1.7rem, 3vw, 2.4rem); }
 .tv-ic {
-  display: grid; place-items: center; width: 46px; height: 46px; border-radius: 13px;
+  display: grid; place-items: center; width: 48px; height: 48px; border-radius: 13px;
   color: #04182d; background: linear-gradient(135deg, var(--accent), #7fe0ff);
-  box-shadow: 0 12px 24px -12px rgba(16, 172, 227, 0.6); margin-bottom: 1rem;
+  box-shadow: 0 12px 24px -12px rgba(16, 172, 227, 0.6);
+  margin-top: -46px; position: relative; z-index: 2; margin-bottom: 1.3rem;
 }
 .tv-eyebrow { font-family: var(--font-display); font-weight: 800; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: #8fd6f5; }
-.tv-pricelabel { display: block; margin-top: 1rem; font-family: var(--font-display); font-weight: 700; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: #9fb9cf; }
-.tv-card .lockup { margin-top: 0.2rem; }
-.tv-card h3 { font-family: var(--font-display); font-weight: 800; font-size: 1.3rem; color: #fff; margin-top: 1.2rem; }
-.tv-body { font-size: 0.92rem; line-height: 1.6; color: #b8cbdb; margin-top: 0.5rem; }
-.tv-bullets { display: flex; flex-direction: column; gap: 0.45rem; list-style: none; margin: 1rem 0 0; padding: 0; }
-.tv-bullets li { display: flex; align-items: center; gap: 0.5rem; font-size: 0.88rem; color: #dbe9f4; }
-.tv-bullets li svg { color: #46d08a; flex-shrink: 0; }
-.tv-tm { margin: 0.8rem 0 0; font-size: 0.68rem; color: #7f95a9; }
+.tv-pricelabel { display: block; margin-top: 1.3rem; font-family: var(--font-display); font-weight: 700; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: #9fb9cf; }
+.tv-card .lockup { margin-top: 0.3rem; }
+.tv-card h3 { font-family: var(--font-display); font-weight: 800; font-size: 1.32rem; color: #fff; margin-top: 1.8rem; line-height: 1.25; }
+.tv-body { font-size: 0.92rem; line-height: 1.65; color: #b8cbdb; margin-top: 0.75rem; }
+.tv-bullets { display: flex; flex-direction: column; gap: 0.7rem; list-style: none; margin: 1.5rem 0 0; padding: 0; }
+.tv-bullets li { display: flex; align-items: flex-start; gap: 0.55rem; font-size: 0.88rem; line-height: 1.45; color: #dbe9f4; }
+.tv-bullets li svg { color: #46d08a; flex-shrink: 0; margin-top: 0.15rem; }
+.tv-tm { margin: 1.2rem 0 0; font-size: 0.68rem; color: #7f95a9; }
 .tv-cta {
-  width: 100%; margin-top: auto; justify-content: center; gap: 0.45rem;
+  width: 100%; justify-content: center; gap: 0.45rem;
   padding-top: 1rem; padding-bottom: 1rem;
+  /* margin-top:auto pins the CTA to the card bottom so both cards' buttons align
+     (cards are equal-height in the grid); the tm/bullets above carry their own
+     top margin, so there's always a gap above the button. */
+  margin-top: auto;
   background: linear-gradient(135deg, #ff7a3c, #f26124); color: #fff;
   border-radius: var(--pill); box-shadow: 0 12px 26px -12px rgba(242, 97, 36, 0.75);
 }
+/* Ensure the button never butts against the fine-print/last bullet on the taller card. */
+.tv-tm, .tv-bullets { margin-bottom: 0.4rem; }
 .tv-cta:hover { filter: brightness(1.06); }
 
-/* ===== Home Phone — stacked horizontal "ticket" rows ===================== */
+/* ===== Home Phone — stacked photo cards, price overlaid on the image ===== */
 .phone-sec { background: #fff; }
-.phone-stack { display: flex; flex-direction: column; gap: 1.3rem; margin-top: 2.4rem; }
+.phone-stack { display: flex; flex-direction: column; gap: 1.6rem; margin-top: 2.4rem; }
 .phone-row {
-  display: grid; grid-template-columns: 1fr; overflow: hidden;
+  display: grid; grid-template-columns: 1fr; overflow: hidden; background: #fff;
   border: 1px solid var(--line); border-radius: var(--r-lg);
   box-shadow: 0 26px 54px -34px rgba(0, 26, 60, 0.35);
 }
-@media (min-width: 720px) { .phone-row { grid-template-columns: 268px 1fr; } }
-.phone-price-col {
-  display: flex; flex-direction: column; justify-content: center;
-  padding: clamp(1.4rem, 3vw, 2rem); color: #fff;
-  background: linear-gradient(158deg, #0b1f38 0%, #071426 70%, #050f1d 100%);
+@media (min-width: 720px) { .phone-row { grid-template-columns: 320px 1fr; } }
+
+/* Photo panel with the price lockup overlaid on a dark gradient. */
+.phone-media-col {
+  position: relative; min-height: 236px; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: flex-end;
 }
-.phone-pricelabel { font-family: var(--font-display); font-weight: 700; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: #9fb9cf; margin-bottom: 0.35rem; }
-.phone-detail-col { padding: clamp(1.4rem, 3vw, 2rem); }
+.phone-media-col img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+.phone-media-col::after {
+  content: ""; position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(180deg, rgba(4, 20, 36, 0.3) 0%, rgba(4, 20, 36, 0.5) 42%, rgba(4, 15, 29, 0.92) 100%);
+}
+.phone-price-overlay { position: relative; z-index: 2; width: 100%; padding: clamp(1.4rem, 3vw, 1.9rem); color: #fff; }
+/* Reframe the shared source photo on the second card so stacked rows differ. */
+.phone-stack > *:nth-child(2) .phone-media-col img { object-position: right center; }
+.phone-pricelabel { font-family: var(--font-display); font-weight: 700; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: #cfe0ee; margin-bottom: 0.4rem; }
+
+.phone-detail-col { padding: clamp(1.5rem, 3vw, 2.1rem); }
 .phone-eyebrow { font-family: var(--font-display); font-weight: 800; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); }
-.phone-detail-col h3 { font-family: var(--font-display); font-weight: 800; font-size: 1.3rem; color: var(--navy); margin-top: 0.2rem; }
-.phone-detail-col > p { font-size: 0.92rem; line-height: 1.6; color: var(--body); margin-top: 0.5rem; }
-.phone-bullets { display: flex; flex-wrap: wrap; gap: 0.5rem 1.4rem; list-style: none; margin: 1rem 0 0; padding: 0; }
+.phone-detail-col h3 { font-family: var(--font-display); font-weight: 800; font-size: 1.32rem; color: var(--navy); margin-top: 0.3rem; }
+.phone-detail-col > p { font-size: 0.92rem; line-height: 1.65; color: var(--body); margin-top: 0.6rem; }
+.phone-bullets { display: flex; flex-wrap: wrap; gap: 0.6rem 1.5rem; list-style: none; margin: 1.3rem 0 0; padding: 0; }
 .phone-bullets li { display: inline-flex; align-items: center; gap: 0.45rem; font-size: 0.86rem; color: var(--body); font-weight: 500; }
 .phone-bullets li svg { color: #0a8a4e; flex-shrink: 0; }
 .phone-cta {
-  margin-top: 1.4rem; justify-content: center; gap: 0.45rem;
+  margin-top: 1.6rem; justify-content: center; gap: 0.45rem;
   background: linear-gradient(135deg, var(--blue), var(--cyan)); color: #fff;
   border-radius: var(--pill); box-shadow: 0 12px 26px -12px rgba(0, 114, 168, 0.7);
 }

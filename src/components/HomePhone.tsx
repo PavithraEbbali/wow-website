@@ -5,11 +5,18 @@ import { Icon } from "@/lib/icons";
 import { products } from "@/lib/content";
 import { siteConfig } from "@/lib/site.config";
 
+const ALT: Record<string, string> = {
+  phone: "A home phone resting on a kitchen counter",
+  "phone-plus": "Making a long-distance call at home on a landline",
+};
+
 /**
- * Home Phone (§2.3) — stacked full-width "ticket" rows, each with a dark price
- * panel on the left (the §3 lockup: $9/mo base, null-price for Plus) and the
- * details on the right. The horizontal, stacked shape is deliberately distinct
- * from the Television section's 2-up card grid.
+ * Home Phone (§2.3) — stacked full-width photo cards. Each row pairs a real
+ * lifestyle PHOTO panel (left) with the §3 price lockup overlaid on it — the
+ * $9/mo base rate and the "get your exact price" line stay large and legible
+ * over a dark gradient, so the photo restores warmth without shrinking the
+ * price. Details sit on the right. Horizontal, stacked shape is deliberately
+ * distinct from the Television section's 2-up grid.
  */
 export function HomePhone() {
   const cards = products.filter((p) => p.line === "phone");
@@ -33,9 +40,20 @@ export function HomePhone() {
           {cards.map((p, i) => (
             <Reveal key={p.id} delay={0.06 * i}>
               <article className="phone-row" data-accent={p.accent}>
-                <div className="phone-price-col">
-                  {p.priceLabel && <span className="phone-pricelabel">{p.priceLabel}</span>}
-                  {p.lockup && <Lockup data={p.lockup} fine={false} className="lockup--dark lockup--lg" />}
+                <div className="phone-media-col">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={`/img/${p.image}.jpeg`}
+                    alt={ALT[p.id] ?? ""}
+                    width={1280}
+                    height={860}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div className="phone-price-overlay">
+                    {p.priceLabel && <span className="phone-pricelabel">{p.priceLabel}</span>}
+                    {p.lockup && <Lockup data={p.lockup} fine={false} className="lockup--dark lockup--lg" />}
+                  </div>
                 </div>
                 <div className="phone-detail-col">
                   <span className="phone-eyebrow">{p.eyebrow}</span>

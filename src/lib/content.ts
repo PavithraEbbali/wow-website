@@ -245,7 +245,9 @@ export const products: Product[] = [
     priceLabel: "Bundle savings",
     lockup: { price: "10", period: "/mo", qualifier: "off YouTube TV for 12 months when you bundle" },
     trademark: "YouTube TV is a trademark of Google LLC.",
-    image: "bundle-tv",
+    // Distinct multi-device photo (vs. the cable card's TV shot) — the two TV
+    // cards sit side by side, so they should not show the same image.
+    image: "why-lifestyle",
     accent: "orange",
     source: SRC.home,
     observedAt: OBSERVED_AT,
