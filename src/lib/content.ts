@@ -93,7 +93,7 @@ export const plans: Plan[] = [
     unit: "Gig",
     price: "105",
     period: "/mo",
-    qualifier: "This is what you'll pay · AutoPay discount available",
+    qualifier: "Fixed price · AutoPay discount available",
     stepUp: "plus taxes, fees & surcharges",
     accent: "blue",
     bestFor: "Busy homes with lots of devices online at once",
